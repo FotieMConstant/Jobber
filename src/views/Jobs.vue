@@ -1,19 +1,18 @@
 <template>
-<v-app>
-  <div class="Jobs">
-    <Header/>
-  </div>
+  <v-app>
+    <div>
+      <Jobs />
+    </div>
   </v-app>
 </template>
 
 <script>
 // @ is an alias to /src
-import Header from '@/components/userComponents/Header.vue'
+import Jobs from "@/components/userComponents/Jobs.vue";
 
 export default {
-  name: 'Jobs',
   components: {
-    Header
-  }
-}
+    Jobs,
+  },
+};
 </script>
