@@ -3,28 +3,23 @@
     <v-app-bar color="primary" dark fixed>
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Jobber</v-toolbar-title>
+      <router-link to="/">
+        <v-toolbar-title class="color-white">Jobber</v-toolbar-title>
+      </router-link>
       <v-spacer></v-spacer>
 
       <router-link to="/Login">
-        <v-btn color="primary" dark>
-          Login
-        </v-btn>
+        <v-btn text large class="color-white">Login</v-btn>
       </router-link>
 
       <router-link to="/Signup">
-        <v-btn color="primary" dark>
-          Signup
-        </v-btn>
+        <v-btn text large class="color-white">Signup</v-btn>
       </router-link>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" absolute temporary>
       <v-list nav dense>
-        <v-list-item-group
-          v-model="group"
-          active-class="deep-purple--text text--accent-4"
-        >
+        <v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4">
           <v-list-item-avatar>
             <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
           </v-list-item-avatar>
@@ -59,3 +54,8 @@ export default {
   }),
 };
 </script>
+<style scoped>
+.color-white {
+  color: white;
+}
+</style>

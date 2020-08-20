@@ -7,16 +7,17 @@
       <p class="mb-2 mt-5">Welcome</p>
     </div>
     <v-form ref="form" v-model="valid" :lazy-validation="lazy">
+      <v-text-field class="mb-9" v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
+
       <v-text-field
         class="mb-9"
         v-model="name"
         :counter="10"
-        :rules="nameRules"
-        label="Name"
+        :rules="passwordRules"
+        label="Password"
         required
+        type="password"
       ></v-text-field>
-
-      <v-text-field class="mb-9" v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
       <v-checkbox
         :indeterminate="indeterminate"
         :error="error"
@@ -37,15 +38,16 @@ export default {
   data: () => ({
     valid: true,
     name: "",
-    nameRules: [
-      v => !!v || "Name is required",
-      v => (v && v.length <= 10) || "Name must be less than 10 characters"
+    passwordRules: [
+      (v) => !!v || "Password is required",
+      (v) =>
+        (v && v.length <= 10) || "Password must be less than 10 characters",
     ],
     email: "",
     emailRules: [
-      v => !!v || "E-mail is required",
-      v => /.+@.+\..+/.test(v) || "E-mail must be valid"
-    ]
+      (v) => !!v || "E-mail is required",
+      (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+    ],
   }),
 
   methods: {
@@ -57,8 +59,8 @@ export default {
     },
     resetValidation() {
       this.$refs.form.resetValidation();
-    }
-  }
+    },
+  },
 };
 </script>
 

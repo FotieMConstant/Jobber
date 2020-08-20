@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue';
 import Signup from '../views/Signup.vue';
+import Jobs from '../views/Jobs.vue';
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ Vue.use(VueRouter)
     path: '/Signup',
     name: 'Signup',
     component: Signup
+  },
+  {
+    path: '/Jobs',
+    name: 'Jobs',
+    component: Jobs
   },
   {
     path: '/about',
