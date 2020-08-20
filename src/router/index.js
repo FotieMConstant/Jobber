@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue';
 import Signup from '../views/Signup.vue';
 import Jobs from '../views/Jobs.vue';
+import Userprofile from '../views/Userprofile.vue';
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ Vue.use(VueRouter)
     path: '/Jobs',
     name: 'Jobs',
     component: Jobs
+  },
+  {
+    path: '/Userprofile',
+    name: 'Userprofile',
+    component: Userprofile
   },
   {
     path: '/about',

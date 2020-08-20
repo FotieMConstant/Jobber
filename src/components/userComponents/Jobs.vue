@@ -58,7 +58,11 @@
             <v-row no-gutters v-else>
               <v-col cols="2">
                 <v-card :elevation="0" class="pa-2">
-                  <v-img src="https://img.icons8.com/bubbles/2x/company.png" :aspect-ratio="16/9" />
+                  <v-avatar size="100">
+                    <v-img
+                      src="https://img.icons8.com/bubbles/2x/company.png"
+                    />
+                  </v-avatar>
                 </v-card>
               </v-col>
               <v-col cols="8">

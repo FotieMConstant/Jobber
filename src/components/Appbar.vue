@@ -15,6 +15,12 @@
       <router-link to="/Signup">
         <v-btn text large class="color-white">Signup</v-btn>
       </router-link>
+
+      <router-link to="/Userprofile">
+        <v-avatar>
+          <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John" />
+        </v-avatar>
+      </router-link>
     </v-app-bar>
 
     <v-navigation-drawer v-model="drawer" absolute temporary>
