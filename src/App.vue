@@ -7,13 +7,20 @@
   </v-app>
 </template>
 
-
 <script>
 import Appbar from "@/components/Appbar.vue";
 
 export default {
   components: {
     Appbar,
+  },
+  watch: {
+    $route: {
+      handler: (to) => {
+        document.title = to.meta.title + " - " + "Jobber";
+      },
+      immediate: true,
+    },
   },
 };
 </script>

@@ -4,7 +4,9 @@
       <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
 
       <router-link to="/">
-        <v-toolbar-title class="color-white">Jobber</v-toolbar-title>
+        <v-toolbar-title class="color-white ml-1">
+          <v-img :src="require('../assets/logo.png')" />
+        </v-toolbar-title>
       </router-link>
       <v-spacer></v-spacer>
 
@@ -25,7 +27,10 @@
 
     <v-navigation-drawer v-model="drawer" absolute temporary>
       <v-list nav dense>
-        <v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4">
+        <v-list-item-group
+          v-model="group"
+          active-class="deep-purple--text text--accent-4"
+        >
           <v-list-item-avatar>
             <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
           </v-list-item-avatar>
