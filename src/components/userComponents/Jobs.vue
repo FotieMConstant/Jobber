@@ -26,6 +26,8 @@
           flat
           hide-no-data
           hide-details
+          v-model="valueLocation"
+          :items="itemsLocation"
           label="Location?"
           solo-inverted
         ></v-autocomplete>
@@ -47,7 +49,7 @@
           <strong>277809</strong>
         </i>
       </p>
-      <v-row dense v-for="jobs in 20" :key="jobs" class="mb-5">
+      <v-row dense v-for="jobs in 10" :key="jobs" class="mb-5">
         <v-col cols="12">
           <v-card :elevation="12">
             <br />
@@ -58,27 +60,56 @@
             <v-row no-gutters v-else>
               <v-col cols="2">
                 <v-card :elevation="0" class="pa-2">
-                  <v-avatar size="100">
-                    <v-img
-                      src="https://img.icons8.com/bubbles/2x/company.png"
-                    />
+                  <v-avatar size="120">
+                    <v-img src="https://img.icons8.com/bubbles/2x/company.png" />
                   </v-avatar>
                 </v-card>
               </v-col>
-              <v-col cols="8">
-                <v-card :elevation="0" class="pa-2">
-                  <v-container class="lighten-5">
-                    <v-row>
-                      <h2
-                        class="title text-sm-left"
-                      >Hardware Related Software Engineer /ABS/ESP 软件工程师（硬件接口相关）_Software Center</h2>
-                    </v-row>
-                    <v-row>
-                      <h3 class="subtitle-1 mt-3">Bosch Group</h3>
-                    </v-row>
-                  </v-container>
+
+              <v-dialog
+                v-model="dialog[jobs]"
+                fullscreen
+                hide-overlay
+                transition="dialog-bottom-transition"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-col cols="8" v-bind="attrs" v-on="on">
+                    <v-card :elevation="0" class="pa-2">
+                      <v-container class="lighten-5">
+                        <v-row>
+                          <h2
+                            class="title text-sm-left"
+                          >Hardware Related Software Engineer /ABS/ESP 软件工程师（硬件接口相关）_Software Center</h2>
+                        </v-row>
+                        <v-row>
+                          <h3 class="subtitle-1 mt-3">Bosch Group</h3>
+                        </v-row>
+                      </v-container>
+                    </v-card>
+                  </v-col>
+                </template>
+                <v-card>
+                  <v-toolbar dark color="primary">
+                    <v-btn icon dark @click="dialog[jobs] = false">
+                      <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                    <v-toolbar-title>Settings</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-toolbar-items>
+                      <v-btn dark text @click="dialog[jobs] = false">Save</v-btn>
+                    </v-toolbar-items>
+                  </v-toolbar>
+
+                  <v-divider></v-divider>
+                  <v-list three-line subheader>
+                    <v-subheader>General</v-subheader>
+                    <!-- Content -->
+                    Content here!
+                    <!-- / Content -->
+                  </v-list>
                 </v-card>
-              </v-col>
+              </v-dialog>
+
               <v-col cols="2">
                 <v-card :elevation="0" class="pa-2">
                   <v-container class="text-right font-weight-light">
@@ -116,6 +147,7 @@ export default {
   },
   data() {
     return {
+      dialog: false, // Dialog for more details of the company and offer
       showLoader: true,
       loading: false,
       items: [],
@@ -147,8 +179,10 @@ export default {
         "Maroua",
         "Garoua",
       ],
-      itemsEmployment: ["Full-time", "Part-time", "Internship"],
+      itemsEmployment: ["Full-time", "Part-time", "Internship"], // Data for job type
       valueEmployment: null,
+      itemsLocation: ["Yaounde", "Bamenda", "Bafoussam"], // Data for job location
+      valueLocation: null,
     };
   },
   watch: {

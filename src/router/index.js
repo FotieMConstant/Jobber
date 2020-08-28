@@ -15,7 +15,7 @@ const routes = [
     name: "Home",
     component: Home,
     meta: {
-      title: "Your jobber Dashboard",
+      title: "Dashboard",
     },
   },
   {
@@ -39,7 +39,7 @@ const routes = [
     name: "Jobs",
     component: Jobs,
     meta: {
-      title: "Find jobs around you",
+      title: "Search for jobs or find jobs around you",
     },
   },
   {
@@ -47,7 +47,7 @@ const routes = [
     name: "Userprofile",
     component: Userprofile,
     meta: {
-      title: "Your profile",
+      title: "Profile",
     },
   },
   {
