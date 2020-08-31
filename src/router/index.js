@@ -6,6 +6,8 @@ import Signup from "../views/Signup.vue";
 import Jobs from "../views/Jobs.vue";
 import Userprofile from "../views/Userprofile.vue";
 import Videocall from "../views/Videocall.vue";
+import Recruiterprofile from "../views/RecruiterViews/Recruiterprofile.vue";
+import store from "@/store/store";
 
 Vue.use(VueRouter);
 
@@ -15,6 +17,7 @@ const routes = [
     name: "Home",
     component: Home,
     meta: {
+      auth: true,
       title: "Dashboard",
     },
   },
@@ -47,6 +50,7 @@ const routes = [
     name: "Userprofile",
     component: Userprofile,
     meta: {
+      auth: true,
       title: "Profile",
     },
   },
@@ -56,6 +60,16 @@ const routes = [
     component: Videocall,
     meta: {
       title: "Video call",
+    },
+  },
+
+  // Routes for the Recruiters
+  {
+    path: "/recruiter/profile",
+    name: "Recruiterprofile",
+    component: Recruiterprofile,
+    meta: {
+      title: "Admin recruiter",
     },
   },
   {
@@ -73,6 +87,16 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.auth && !store.state.currentUser) {
+    next({
+      path: "/Login",
+    });
+  } else {
+    next();
+  }
 });
 
 export default router;

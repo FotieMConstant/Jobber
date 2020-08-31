@@ -166,7 +166,9 @@ export default {
         "Data Analyst",
         "Back-end Developer",
       ],
-      location: [
+      itemsEmployment: ["Full-time", "Part-time", "Internship"], // Data for job type
+      valueEmployment: null,
+      itemsLocation: [
         "Yaounde",
         "Douala",
         "Bamenda",
@@ -178,10 +180,7 @@ export default {
         "Foumban",
         "Maroua",
         "Garoua",
-      ],
-      itemsEmployment: ["Full-time", "Part-time", "Internship"], // Data for job type
-      valueEmployment: null,
-      itemsLocation: ["Yaounde", "Bamenda", "Bafoussam"], // Data for job location
+      ], // Data for job location
       valueLocation: null,
     };
   },
