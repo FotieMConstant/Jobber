@@ -21,7 +21,7 @@ export default {
     jitsiOptions() {
       return {
         roomName: "DevTestRoom",
-        width: 1300,
+        width: 1265,
         height: 625,
         noSSL: false,
         userInfo: {
