@@ -55,7 +55,7 @@ database.googleSignIn = async () => {
   try {
     const provider = new firebase.auth.GoogleAuthProvider();
     await firebase.auth().signInWithPopup(provider);
-    store.commit("setCurrentUser", null); // Update the state in the store
+    store.commit("setCurrentUser", firebase.auth().currentUser); // Update the state in the store
     return true;
   } catch (error) {
     return error;
