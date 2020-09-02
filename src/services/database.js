@@ -2,14 +2,14 @@ import store from "@/store/store";
 import firebase from "firebase";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC4WDANBBjcIHv6K6kC1JjV7JoMlUlcEqs",
-  authDomain: "jobberapp-9af5f.firebaseapp.com",
-  databaseURL: "https://jobberapp-9af5f.firebaseio.com",
-  projectId: "jobberapp-9af5f",
-  storageBucket: "jobberapp-9af5f.appspot.com",
-  messagingSenderId: "27228985451",
-  appId: "1:27228985451:web:fbb66f0b8cbb43f191792e",
-  measurementId: "G-PTTG4CNRCZ",
+  apiKey: "AIzaSyAVs5xBE0XUH90RYvXwm2Hg8x3TFgptTQg",
+    authDomain: "jobberapp-81e85.firebaseapp.com",
+    databaseURL: "https://jobberapp-81e85.firebaseio.com",
+    projectId: "jobberapp-81e85",
+    storageBucket: "jobberapp-81e85.appspot.com",
+    messagingSenderId: "940975323976",
+    appId: "1:940975323976:web:ba03cf1c97d6a841eed17d",
+    measurementId: "G-KJ6D5YKC7Y"
 };
 
 const database = firebase.initializeApp(firebaseConfig);
@@ -42,6 +42,19 @@ database.signIn = async (email, password) => {
 database.signOut = async () => {
   try {
     await firebase.auth().signOut();
+    store.commit("setCurrentUser", null); // Update the state in the store
+    return true;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Google auth
+
+database.googleSignIn = async () => {
+  try {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    await firebase.auth().signInWithPopup(provider);
     store.commit("setCurrentUser", null); // Update the state in the store
     return true;
   } catch (error) {
