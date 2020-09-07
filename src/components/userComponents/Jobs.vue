@@ -45,11 +45,11 @@
       <p class="text-left mt-5">
         <i>
           Showing
-          <strong>20</strong> out of
+          <strong>{{jobs.length}}</strong> out of
           <strong>277809</strong>
         </i>
       </p>
-      <v-row dense v-for="jobs in 10" :key="jobs" class="mb-5">
+      <v-row dense v-for="job in jobs" :key="job.id" class="mb-5">
         <v-col cols="12">
           <v-card :elevation="12">
             <br />
@@ -61,13 +61,13 @@
               <v-col cols="2">
                 <v-card :elevation="0" class="pa-2">
                   <v-avatar size="120">
-                    <v-img src="https://img.icons8.com/bubbles/2x/company.png" />
+                    <v-img v-bind:src="job.recruiter.company.logo" />
                   </v-avatar>
                 </v-card>
               </v-col>
 
               <v-dialog
-                v-model="dialog[jobs]"
+                v-model="dialog[job.id]"
                 fullscreen
                 hide-overlay
                 transition="dialog-bottom-transition"
@@ -77,12 +77,28 @@
                     <v-card :elevation="0" class="pa-2">
                       <v-container class="lighten-5">
                         <v-row>
-                          <h2
-                            class="title text-sm-left"
-                          >Hardware Related Software Engineer /ABS/ESP 软件工程师（硬件接口相关）_Software Center</h2>
+                          <h2 class="title text-sm-left">{{ job.offerName }}</h2>
                         </v-row>
                         <v-row>
-                          <h3 class="subtitle-1 mt-3">Bosch Group</h3>
+                          <h3 class="subtitle-1 mt-2">{{ job.recruiter.company.name }}</h3>
+                        </v-row>
+                        <v-row>
+                          <h5 class="caption subtitle-1 mt-1">{{ job.description }}</h5>
+                        </v-row>
+                        <v-row class="ml-n4 mt-2">
+                          <v-chip
+                            v-for="categorie in job.categories"
+                            :key="categorie"
+                            class="ma-1"
+                            small
+                            color="success"
+                            text-color="white"
+                          >
+                            <v-avatar left>
+                              <v-icon small>mdi-checkbox-marked-circle</v-icon>
+                            </v-avatar>
+                            {{categorie.name}}
+                          </v-chip>
                         </v-row>
                       </v-container>
                     </v-card>
@@ -90,13 +106,13 @@
                 </template>
                 <v-card>
                   <v-toolbar dark color="primary">
-                    <v-btn icon dark @click="dialog[jobs] = false">
+                    <v-btn icon dark @click="dialog[job.id] = false">
                       <v-icon>mdi-close</v-icon>
                     </v-btn>
                     <v-toolbar-title>Settings</v-toolbar-title>
                     <v-spacer></v-spacer>
                     <v-toolbar-items>
-                      <v-btn dark text @click="dialog[jobs] = false">Save</v-btn>
+                      <v-btn dark text @click="dialog[job.id] = false">Save</v-btn>
                     </v-toolbar-items>
                   </v-toolbar>
 
@@ -104,7 +120,7 @@
                   <v-list three-line subheader>
                     <v-subheader>General</v-subheader>
                     <!-- Content -->
-                    Content here!
+                    Content here! ID = {{job.id}}
                     <!-- / Content -->
                   </v-list>
                 </v-card>
@@ -114,17 +130,28 @@
                 <v-card :elevation="0" class="pa-2">
                   <v-container class="text-right font-weight-light">
                     <v-row>
-                      <span class="caption mb-4">Chengdu, China.</span>
+                      <span class="caption mb-4">{{ job.town }}, {{ job.country }}.</span>
                     </v-row>
                     <v-row>
                       <span class="caption mb-7">
-                        <v-badge color="primary" content="Full time"></v-badge>
+                        <v-badge color="primary" :content="job.type"></v-badge>
                       </span>
                     </v-row>
                     <v-row>
                       <span class="caption mb-1">
-                        <i>Just now</i>
+                        <i>
+                          <!-- Auto-update time every 60 seconds -->
+                          <timeago :datetime="job.postedDate" :auto-update="60"></timeago>
+                        </i>
                       </span>
+                    </v-row>
+                    <v-row>
+                      <v-chip v-if="job.offerStatus == true" class="ma-1" small>
+                        <v-icon left>mdi-check</v-icon>Open
+                      </v-chip>
+                      <v-chip v-else class="ma-1" color="red" small text-color="white">
+                        <v-icon left>mdi-close</v-icon>Closed
+                      </v-chip>
                     </v-row>
                   </v-container>
                 </v-card>
@@ -140,13 +167,13 @@
 
 <script>
 import Skeletonjobsloader from "./Skeletonjobsloader.vue";
-
 export default {
   components: {
     Skeletonjobsloader,
   },
   data() {
     return {
+      jobs: null,
       dialog: false, // Dialog for more details of the company and offer
       showLoader: true,
       loading: false,
@@ -209,7 +236,18 @@ export default {
   mounted: function () {
     setTimeout(() => {
       this.showLoader = false;
-    }, 250);
+    }, 500);
+
+    this.axios
+      .get("http://localhost:8080/endpoints/joboffer.json")
+      .then((response) => {
+        this.jobs = response.data;
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => (this.loading = false));
   },
 };
 </script>

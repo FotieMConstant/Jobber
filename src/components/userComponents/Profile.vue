@@ -28,19 +28,21 @@
                 <v-card :elevation="0" class="pa-2">
                   <v-container class="lighten-5">
                     <v-row>
-                      <h2 class="title text-sm-left">Fotie Moghommahie Constant</h2>
+                      <h2
+                        class="title text-sm-left"
+                      >{{userProfile[0].firstName}} {{userProfile[0].lastName}}</h2>
                     </v-row>
                     <v-row class="mt-2">
                       <v-icon class="ml-n1 mr-2">mdi-google-maps</v-icon>
-                      <span>Yaounde, Cameroon.</span>
+                      <span>{{userProfile[0].street}}, {{userProfile[0].town}}, {{userProfile[0].country}}, .</span>
                     </v-row>
                     <v-row class="mt-2">
                       <v-icon class="ml-n1 mr-2">mdi-email</v-icon>
-                      <span>fotiemoghommahieconstant@gmail.com</span>
+                      <span>{{userProfile[0].email}}</span>
                     </v-row>
                     <v-row class="mt-2">
                       <v-icon class="ml-n1 mr-2">mdi-phone</v-icon>
-                      <span>+237652060541</span>
+                      <span>{{userProfile[0].phoneNumber}}</span>
                     </v-row>
                     <v-row>
                       <h3 class="subtitle-1 mt-3">
@@ -111,7 +113,9 @@
                                   ></v-file-input>
                                   <v-avatar size="160" class="mt-4">
                                     <v-img
-                                      :src="require('../../assets/user_images/avatar-placeholder.png')"
+                                      :src="
+                                        require('../../assets/user_images/avatar-placeholder.png')
+                                      "
                                     />
                                   </v-avatar>
                                 </v-card>
@@ -180,7 +184,9 @@
                                 <v-card :elevation="0" class="pa-2">
                                   <v-avatar class="mt-4">
                                     <v-img
-                                      :src="require('../../assets/user_images/experience-default.png')"
+                                      :src="
+                                        require('../../assets/user_images/experience-default.png')
+                                      "
                                     />
                                   </v-avatar>
                                 </v-card>
@@ -216,7 +222,9 @@
                                 <v-card :elevation="0" class="pa-2">
                                   <v-avatar class="mt-4">
                                     <v-img
-                                      :src="require('../../assets/user_images/experience-default.png')"
+                                      :src="
+                                        require('../../assets/user_images/experience-default.png')
+                                      "
                                     />
                                   </v-avatar>
                                 </v-card>
@@ -271,13 +279,25 @@
                     </v-row>
                     <v-row>
                       <span class="caption mb-7 ml-1">
-                        <a href="#" target="_blank" rel="noopener noreferrer">
+                        <a
+                          :href="'//' +userProfile[0].linkedin"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           <v-icon large color="primary">mdi-linkedin</v-icon>
                         </a>
-                        <a href="#" target="_blank" rel="noopener noreferrer">
+                        <a
+                          :href="'//' +userProfile[0].facebook"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           <v-icon large color="primary">mdi-facebook</v-icon>
                         </a>
-                        <a href="#" target="_blank" rel="noopener noreferrer">
+                        <a
+                          :href="'//' +userProfile[0].twitter"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
                           <v-icon large color="primary">mdi-twitter</v-icon>
                         </a>
                       </span>
@@ -285,7 +305,7 @@
                     <v-row>
                       <span class="mb-1 ml-1">
                         <v-chip
-                          href="#"
+                          :href="'//' +userProfile[0].website"
                           target="_blank"
                           class="ma-2"
                           color="cyan"
@@ -396,7 +416,9 @@
                             <v-col>
                               <v-checkbox
                                 v-model="checkbox"
-                                :label="`I currently work here: ${checkbox.toString()}`"
+                                :label="
+                                  `I currently work here: ${checkbox.toString()}`
+                                "
                               ></v-checkbox>
                             </v-col>
                           </v-row>
@@ -419,7 +441,12 @@
             <Skeletonjobsloader v-if="showLoader" />
             <!-- /Loader -->
             <!-- Content -->
-            <v-row v-for="exp in 2" :key="exp" no-gutters v-else>
+            <v-row
+              v-for="experience in userProfile[0].experiences"
+              :key="experience"
+              no-gutters
+              v-else
+            >
               <v-col cols="2">
                 <v-card :elevation="0" class="pa-2">
                   <v-avatar class="mt-4">
@@ -435,19 +462,19 @@
                 <v-card :elevation="0" class="pa-2">
                   <v-container class="lighten-5">
                     <v-row>
-                      <h4 class="text-sm-left">Software Engineer Intern</h4>
-                      <span class="ml-2">2019 - 2019</span>
+                      <h4 class="text-sm-left">{{experience.title}}</h4>
+                      <span class="ml-2">{{experience.startDate}} - {{experience.endDate}}</span>
                     </v-row>
                     <v-row class="mt-2">
-                      <span class="subtitle-2 light">SCOLARYX CORPORATE</span>
+                      <span
+                        class="subtitle-2 light"
+                      >{{experience.company}}, E-mail: {{experience.email}}, Tel: {{experience.tel}}</span>
                     </v-row>
+                    <v-row
+                      class="mt-2"
+                    >{{experience.town}}, {{experience.country}} ({{experience.street}}).</v-row>
                     <v-row class="text-sm-left mt-2">
-                      <span>
-                        Worked as a web developer intern here. We used
-                        technologies like HTML5/CSS3, Bootstrap, PHP, moodle
-                        CMS, etc and design tools like Photoshop, Premier Pro,
-                        Illustrator etc
-                      </span>
+                      <span>{{experience.description}}</span>
                     </v-row>
                   </v-container>
                 </v-card>
@@ -538,7 +565,9 @@
                             <v-col>
                               <v-checkbox
                                 v-model="checkbox"
-                                :label="`I currently attend: ${checkbox.toString()}`"
+                                :label="
+                                  `I currently attend: ${checkbox.toString()}`
+                                "
                               ></v-checkbox>
                             </v-col>
                           </v-row>
@@ -561,7 +590,12 @@
             <Skeletonjobsloader v-if="showLoader" />
             <!-- /Loader -->
             <!-- Content -->
-            <v-row v-for="exp in 2" :key="exp" no-gutters v-else>
+            <v-row
+              v-for="education in userProfile[0].educations"
+              :key="education"
+              no-gutters
+              v-else
+            >
               <v-col cols="2">
                 <v-card :elevation="0" class="pa-2">
                   <v-avatar class="mt-4">
@@ -577,14 +611,18 @@
                 <v-card :elevation="0" class="pa-2">
                   <v-container class="lighten-5">
                     <v-row>
-                      <h4 class="text-sm-left">OpenClassrooms</h4>
-                      <span class="ml-2">2019 - 2020</span>
+                      <h4 class="text-sm-left">{{education.institution}}</h4>
+                      <span class="ml-2">{{education.startDate}} - {{education.endDate}}</span>
                     </v-row>
                     <v-row class="mt-2">
-                      <span class="subtitle-2 light">Front-End Development</span>
+                      <span class="subtitle-2 light">{{education.major}}</span>
                     </v-row>
                     <v-row class="text-sm-left mt-2">
-                      <span>Bachelor's degree</span>
+                      <span>{{education.degree}}</span>
+                    </v-row>
+                    <v-row>{{education.town}}, {{education.country}} ({{education.street}}).</v-row>
+                    <v-row class="text-sm-left mt-2">
+                      <span>{{education.description}}</span>
                     </v-row>
                   </v-container>
                 </v-card>
@@ -682,7 +720,12 @@
             <Skeletonjobsloader v-if="showLoader" />
             <!-- /Loader -->
             <!-- Content -->
-            <v-row v-for="exp in 2" :key="exp" no-gutters v-else>
+            <v-row
+              v-for="certifications in userProfile[0].certificationses"
+              :key="certifications"
+              no-gutters
+              v-else
+            >
               <v-col cols="2">
                 <v-card :elevation="0" class="pa-2">
                   <v-avatar class="mt-4">
@@ -698,20 +741,30 @@
                 <v-card :elevation="0" class="pa-2">
                   <v-container class="lighten-5">
                     <v-row>
-                      <h4 class="text-sm-left">Build Your Web Projects With REST APIs</h4>
+                      <h4 class="text-sm-left">{{certifications.name}}</h4>
                     </v-row>
                     <v-row class="mt-2">
-                      <span class="subtitle-2 light">OpenClassrooms</span>
-                    </v-row>
-                    <v-row class="text-sm-left">
-                      <small>Issued Jun 2019 - No Expiry date</small>
-                    </v-row>
-                    <v-row class="text-sm-left">
-                      <small>Credential ID # 8005543859</small>
+                      <span class="subtitle-2 light">{{certifications.organisation}}</span>
                     </v-row>
                     <v-row class="text-sm-left">
                       <small>
-                        <a href="#" target="_blank" rel="noopener noreferrer">See credential</a>
+                        Issued {{certifications.issueDate}} -
+                        <span
+                          v-if="certifications.expiryDate == null"
+                        >No Expiry date</span>
+                        <span v-else>{{certifications.expiryDate}}</span>
+                      </small>
+                    </v-row>
+                    <v-row class="text-sm-left">
+                      <small>Credential ID # {{certifications.credentialId}}</small>
+                    </v-row>
+                    <v-row class="text-sm-left">
+                      <small>
+                        <a
+                          :href="'//' + certifications.credentialUrl"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >See credential</a>
                       </small>
                     </v-row>
                   </v-container>
@@ -802,7 +855,12 @@
             <Skeletonjobsloader v-if="showLoader" />
             <!-- /Loader -->
             <!-- Content -->
-            <v-row v-for="exp in 2" :key="exp" no-gutters v-else>
+            <v-row
+              v-for="languagespoken in userProfile[0].languagespokens"
+              :key="languagespoken"
+              no-gutters
+              v-else
+            >
               <v-col cols="2">
                 <v-card :elevation="0" class="pa-2">
                   <v-avatar class="mt-4">
@@ -818,11 +876,11 @@
                 <v-card :elevation="0" class="pa-2">
                   <v-container class="lighten-5">
                     <v-row>
-                      <h4 class="text-sm-left">Chinese - 中文</h4>
+                      <h4 class="text-sm-left">{{languagespoken.language.languageName}}</h4>
                     </v-row>
 
                     <v-row class="text-sm-left">
-                      <small>Elementary proficiency</small>
+                      <small>{{languagespoken.languagelevel}}</small>
                     </v-row>
                   </v-container>
                 </v-card>
@@ -858,6 +916,7 @@ export default {
   },
   data() {
     return {
+      userProfile: null,
       dropdownProficiency: [
         "Elementary proficiency",
         "Limited working proficiency",
@@ -888,6 +947,17 @@ export default {
     setTimeout(() => {
       this.showLoader = false;
     }, 300);
+    this.axios
+      .get("http://localhost:8080/endpoints/jobseeker.json")
+      .then((response) => {
+        this.userProfile = response.data;
+        console.log(response.data);
+        console.log(typeof response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => (this.loading = false));
   },
 };
 </script>

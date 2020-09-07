@@ -1,0 +1,14 @@
+[
+    {
+        "id": 0,
+        "name": "haibasoft",
+        "description": "a really cool startup",
+        "logo": "https://dashboard.snapcraft.io/site_media/appmedia/2020/03/app_icon_512.png"
+    },
+    {
+        "id": 1,
+        "name": "brainsoft",
+        "description": "some text",
+        "logo": "path to"
+    }
+]

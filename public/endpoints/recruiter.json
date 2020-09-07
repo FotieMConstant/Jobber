@@ -1,0 +1,49 @@
+[
+    {
+        "id": "0",
+        "company": {
+            "id": 0,
+            "name": "haibasoft",
+            "description": "a really cool startup",
+            "logo": "https://dashboard.snapcraft.io/site_media/appmedia/2020/03/app_icon_512.png"
+        },
+        "recruiter": null,
+        "firstName": "dilan",
+        "lastName": "longla",
+        "tel": 678902145,
+        "email": "dilanlongla@yahoo.com",
+        "password": "dilanlongla",
+        "role": "Admin"
+    },
+    {
+        "id": "1",
+        "company": {
+            "id": 0,
+            "name": "haibasoft",
+            "description": "a really cool startup",
+            "logo": "https://dashboard.snapcraft.io/site_media/appmedia/2020/03/app_icon_512.png"
+        },
+        "recruiter": {
+            "id": "0",
+            "company": {
+                "id": 0,
+                "name": "haibasoft",
+                "description": "a really cool startup",
+                "logo": "https://dashboard.snapcraft.io/site_media/appmedia/2020/03/app_icon_512.png"
+            },
+            "recruiter": null,
+            "firstName": "dilan",
+            "lastName": "longla",
+            "tel": 678902145,
+            "email": "dilanlongla@yahoo.com",
+            "password": "dilanlongla",
+            "role": "Admin"
+        },
+        "firstName": "fotie",
+        "lastName": "constant",
+        "tel": 657156464,
+        "email": "fotie@gmail.com",
+        "password": "fotie",
+        "role": "recruiter"
+    }
+]
