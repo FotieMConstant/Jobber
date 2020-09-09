@@ -35,11 +35,27 @@
     "categories": [
       {
         "id": 1,
-        "name": "Desktop app development"
+        "name": "Swift"
       },
       {
         "id": 0,
-        "name": "mobile app development"
+        "name": "Mobile app development"
+      },
+      {
+        "id": 2,
+        "name": "Javascript"
+      },
+      {
+        "id": 3,
+        "name": "Java EE"
+      },
+      {
+        "id": 4,
+        "name": "Bootstrap"
+      },
+      {
+        "id": 5,
+        "name": "HTML/CSS"
       }
     ]
   },

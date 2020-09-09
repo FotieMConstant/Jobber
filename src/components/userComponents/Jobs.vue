@@ -180,19 +180,7 @@ export default {
       items: [],
       search: null,
       select: null,
-      states: [
-        "Front-end Developer",
-        "HR Manager",
-        "School teacher",
-        "University Lecturer",
-        "Graphic Designer",
-        "Content creator",
-        "Web master",
-        "Java Developer",
-        "CCNA Certified specialist",
-        "Data Analyst",
-        "Back-end Developer",
-      ],
+      Cat: ["Front-end Developer"],
       itemsEmployment: ["Full-time", "Part-time", "Internship"], // Data for job type
       valueEmployment: null,
       itemsLocation: [
@@ -223,7 +211,7 @@ export default {
       this.showLoader = true;
       // Simulated ajax query
       setTimeout(() => {
-        this.items = this.states.filter((e) => {
+        this.items = this.Cat.filter((e) => {
           return (e || "").toLowerCase().indexOf((v || "").toLowerCase()) > -1;
         });
         this.loading = false;
@@ -241,6 +229,7 @@ export default {
     this.axios
       .get("http://localhost:8080/endpoints/joboffer.json")
       .then((response) => {
+        // Seeting the response to the jobs variable
         this.jobs = response.data;
         console.log(response.data);
       })
