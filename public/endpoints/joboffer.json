@@ -1,27 +1,11 @@
 [
   {
     "id": 0,
-    "recruiter": {
-      "id": "0",
-      "company": {
-        "id": 0,
-        "name": "Haibasoft",
-        "description": "a really cool startup",
-        "logo": "https://dashboard.snapcraft.io/site_media/appmedia/2020/03/app_icon_512.png"
-      },
-      "recruiter": null,
-      "firstName": "dilan",
-      "lastName": "longla",
-      "tel": 678902145,
-      "email": "dilanlongla@yahoo.com",
-      "password": "dilanlongla",
-      "role": "Admin"
-    },
-    "offerName": "iOS Developer ",
+    "offerName": "App development ",
     "startDate": "2020-08-12T00:00:00.000+00:00",
     "endDate": "2020-08-29T00:00:00.000+00:00",
     "postedDate": "2020-08-12T00:00:00.000+00:00",
-    "description": "iOS Developer needed for a contract project of 2 years",
+    "description": "description of the offer",
     "salary": 150,
     "skill": "dont yet know",
     "offerStatus": true,
@@ -30,120 +14,76 @@
     "latitude": null,
     "code": "coded",
     "country": "cameroon",
-    "town": "yaounde",
+    "town": "Yaounde",
     "street": "mendong",
-    "categories": [
+    "offerseekers": [
       {
-        "id": 1,
-        "name": "Swift"
-      },
-      {
-        "id": 0,
-        "name": "Mobile app development"
-      },
-      {
-        "id": 2,
-        "name": "Javascript"
-      },
-      {
-        "id": 3,
-        "name": "Java EE"
-      },
-      {
-        "id": 4,
-        "name": "Bootstrap"
-      },
-      {
-        "id": 5,
-        "name": "HTML/CSS"
+        "id": {
+          "jobSeekerId": "0",
+          "jobOfferId": 0
+        },
+        "companyReview": true,
+        "seekerReview": false,
+        "interviewDate": "2020-09-14T00:00:00.000+00:00"
       }
     ]
   },
+
   {
     "id": 1,
-    "recruiter": {
-      "id": "0",
-      "company": {
-        "id": 0,
-        "name": "MTN Cameroon",
-        "description": "a really cool startup",
-        "logo": "https://i2.wp.com/pbs.twimg.com/profile_images/790578036576051200/aEZ2BHPc_400x400.jpg"
-      },
-      "recruiter": null,
-      "firstName": "dilan",
-      "lastName": "longla",
-      "tel": 678902145,
-      "email": "dilanlongla@yahoo.com",
-      "password": "dilanlongla",
-      "role": "Admin"
-    },
-    "offerName": "Commercial agent for sales",
+    "offerName": "iOS Developer needed for a contract",
     "startDate": "2020-08-12T00:00:00.000+00:00",
     "endDate": "2020-08-29T00:00:00.000+00:00",
-    "postedDate": "2020-09-06T00:00:00.000+00:00",
-    "description": "Commercial agent required for marketing the MTN smart phones and other products",
+    "postedDate": "2020-09-10T00:00:00.000+00:00",
+    "description": "description of the offer",
     "salary": 150,
     "skill": "dont yet know",
     "offerStatus": false,
-    "type": "Full-time",
+    "type": "Part-time",
     "longitude": null,
     "latitude": null,
     "code": "coded",
-    "country": "Cameroon",
-    "town": "Douala",
-    "street": "Sable",
-    "categories": [
+    "country": "cameroon",
+    "town": "Yaounde",
+    "street": "mendong",
+    "offerseekers": [
       {
-        "id": 1,
-        "name": "Desktop app development"
-      },
-      {
-        "id": 0,
-        "name": "mobile app development"
+        "id": {
+          "jobSeekerId": "0",
+          "jobOfferId": 1
+        },
+        "companyReview": true,
+        "seekerReview": false,
+        "interviewDate": "2020-09-14T00:00:00.000+00:00"
       }
     ]
   },
   {
     "id": 2,
-    "recruiter": {
-      "id": "0",
-      "company": {
-        "id": 0,
-        "name": "MTN Cameroon",
-        "description": "a really cool startup",
-        "logo": "https://i2.wp.com/pbs.twimg.com/profile_images/790578036576051200/aEZ2BHPc_400x400.jpg"
-      },
-      "recruiter": null,
-      "firstName": "dilan",
-      "lastName": "longla",
-      "tel": 678902145,
-      "email": "dilanlongla@yahoo.com",
-      "password": "dilanlongla",
-      "role": "Admin"
-    },
-    "offerName": "Commercial agent for sales",
+    "offerName": "Commercial agent needed for sales of SIM cards",
     "startDate": "2020-08-12T00:00:00.000+00:00",
     "endDate": "2020-08-29T00:00:00.000+00:00",
-    "postedDate": "2020-09-06T00:00:00.000+00:00",
-    "description": "Commercial agent required for marketing the MTN smart phones and other products",
+    "postedDate": "2020-09-10T00:00:00.000+00:00",
+    "description": "description of the offer",
     "salary": 150,
     "skill": "dont yet know",
-    "offerStatus": true,
-    "type": "Full-time",
+    "offerStatus": false,
+    "type": "Part-time",
     "longitude": null,
     "latitude": null,
     "code": "coded",
-    "country": "Cameroon",
-    "town": "Douala",
-    "street": "Sable",
-    "categories": [
+    "country": "cameroon",
+    "town": "Yaounde",
+    "street": "mendong",
+    "offerseekers": [
       {
-        "id": 1,
-        "name": "Desktop app development"
-      },
-      {
-        "id": 0,
-        "name": "mobile app development"
+        "id": {
+          "jobSeekerId": "0",
+          "jobOfferId": 2
+        },
+        "companyReview": true,
+        "seekerReview": false,
+        "interviewDate": "2020-09-14T00:00:00.000+00:00"
       }
     ]
   }

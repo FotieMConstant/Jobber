@@ -17,10 +17,12 @@
                 <v-card :elevation="0" class="pa-2">
                   <v-avatar size="160" class="mt-4">
                     <v-img
+                      v-if="photoUrl == null"
                       :src="
                         require('../../assets/user_images/avatar-placeholder.png')
                       "
                     />
+                    <v-img v-else :src="photoUrl" rounded />
                   </v-avatar>
                 </v-card>
               </v-col>
@@ -30,19 +32,19 @@
                     <v-row>
                       <h2
                         class="title text-sm-left"
-                      >{{userProfile[0].firstName}} {{userProfile[0].lastName}}</h2>
+                      >{{userProfile.firstName}} {{userProfile.lastName}}</h2>
                     </v-row>
                     <v-row class="mt-2">
                       <v-icon class="ml-n1 mr-2">mdi-google-maps</v-icon>
-                      <span>{{userProfile[0].street}}, {{userProfile[0].town}}, {{userProfile[0].country}}, .</span>
+                      <span>{{userProfile.street}}, {{userProfile.town}}, {{userProfile.country}}, .</span>
                     </v-row>
                     <v-row class="mt-2">
                       <v-icon class="ml-n1 mr-2">mdi-email</v-icon>
-                      <span>{{userProfile[0].email}}</span>
+                      <span>{{userProfile.email}}</span>
                     </v-row>
                     <v-row class="mt-2">
                       <v-icon class="ml-n1 mr-2">mdi-phone</v-icon>
-                      <span>{{userProfile[0].phoneNumber}}</span>
+                      <span>{{userProfile.phoneNumber}}</span>
                     </v-row>
                     <v-row>
                       <h3 class="subtitle-1 mt-3">
@@ -280,21 +282,21 @@
                     <v-row>
                       <span class="caption mb-7 ml-1">
                         <a
-                          :href="'//' +userProfile[0].linkedin"
+                          :href="'//' +userProfile.linkedin"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
                           <v-icon large color="primary">mdi-linkedin</v-icon>
                         </a>
                         <a
-                          :href="'//' +userProfile[0].facebook"
+                          :href="'//' +userProfile.facebook"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
                           <v-icon large color="primary">mdi-facebook</v-icon>
                         </a>
                         <a
-                          :href="'//' +userProfile[0].twitter"
+                          :href="'//' +userProfile.twitter"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -305,7 +307,7 @@
                     <v-row>
                       <span class="mb-1 ml-1">
                         <v-chip
-                          :href="'//' +userProfile[0].website"
+                          :href="'//' +userProfile.website"
                           target="_blank"
                           class="ma-2"
                           color="cyan"
@@ -442,7 +444,7 @@
             <!-- /Loader -->
             <!-- Content -->
             <v-row
-              v-for="experience in userProfile[0].experiences"
+              v-for="experience in userProfile.experiences"
               :key="experience"
               no-gutters
               v-else
@@ -590,12 +592,7 @@
             <Skeletonjobsloader v-if="showLoader" />
             <!-- /Loader -->
             <!-- Content -->
-            <v-row
-              v-for="education in userProfile[0].educations"
-              :key="education"
-              no-gutters
-              v-else
-            >
+            <v-row v-for="education in userProfile.educations" :key="education" no-gutters v-else>
               <v-col cols="2">
                 <v-card :elevation="0" class="pa-2">
                   <v-avatar class="mt-4">
@@ -721,7 +718,7 @@
             <!-- /Loader -->
             <!-- Content -->
             <v-row
-              v-for="certifications in userProfile[0].certificationses"
+              v-for="certifications in userProfile.certificationses"
               :key="certifications"
               no-gutters
               v-else
@@ -856,7 +853,7 @@
             <!-- /Loader -->
             <!-- Content -->
             <v-row
-              v-for="languagespoken in userProfile[0].languagespokens"
+              v-for="languagespoken in userProfile.languagespokens"
               :key="languagespoken"
               no-gutters
               v-else
@@ -909,6 +906,7 @@
 
 <script>
 import Skeletonjobsloader from "./Skeletonjobsloader.vue";
+import firebase from "firebase";
 
 export default {
   components: {
@@ -924,6 +922,7 @@ export default {
         "Full professional proficiency",
         "Native or bilingual proficiency",
       ],
+      photoUrl: "", // for storing the current user's profile picture URL
       showLoader: true,
       dialog: false, // data for the dialog box of Experience
       dialogEdu: false, // data for the dialog box of Education
@@ -947,8 +946,27 @@ export default {
     setTimeout(() => {
       this.showLoader = false;
     }, 300);
+
+    // Variables for my request
+    const username = "admin";
+    const password = "dilan";
+
+    const token = Buffer.from(`${username}:${password}`, "utf8").toString(
+      "base64"
+    );
+
+    // Getting the current login user
+    const user = firebase.auth().currentUser;
+    this.photoUrl = user.photoURL;
+
+    const url = `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/jobseeker/${user.uid}`;
+
     this.axios
-      .get("http://localhost:8080/endpoints/jobseeker.json")
+      .get(url, {
+        headers: {
+          Authorization: `Basic ${token}`,
+        },
+      })
       .then((response) => {
         this.userProfile = response.data;
         console.log(response.data);
@@ -958,6 +976,7 @@ export default {
         console.log(error);
       })
       .finally(() => (this.loading = false));
+    // End of request
   },
 };
 </script>

@@ -46,7 +46,7 @@ const routes = [
     },
   },
   {
-    path: "/Userprofile",
+    path: "/jobseeker/profile",
     name: "Userprofile",
     component: Userprofile,
     meta: {

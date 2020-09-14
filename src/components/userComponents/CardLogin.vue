@@ -99,8 +99,9 @@ export default {
         this.$router.push("/");
       }
     },
+    // Google signin
     async googleSignIn() {
-      let result = await database.googleSignIn();
+      let result = await database.googleSignUp();
 
       // Check if the result is good or bad
       if (result.message) {
@@ -111,6 +112,7 @@ export default {
         this.$router.push("/");
       }
     },
+    // GEnd og google SignIn
 
     // For verifications
     validate() {

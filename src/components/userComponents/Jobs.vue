@@ -49,7 +49,7 @@
           <strong>277809</strong>
         </i>
       </p>
-      <v-row dense v-for="job in jobs" :key="job.id" class="mb-5">
+      <v-row dense v-for="job in jobs" :key="job" class="mb-5">
         <v-col cols="12">
           <v-card :elevation="12">
             <br />
@@ -61,7 +61,9 @@
               <v-col cols="2">
                 <v-card :elevation="0" class="pa-2">
                   <v-avatar size="120">
-                    <v-img v-bind:src="job.recruiter.company.logo" />
+                    <v-img
+                      src="https://dashboard.snapcraft.io/site_media/appmedia/2020/03/app_icon_512.png"
+                    />
                   </v-avatar>
                 </v-card>
               </v-col>
@@ -80,14 +82,14 @@
                           <h2 class="title text-sm-left">{{ job.offerName }}</h2>
                         </v-row>
                         <v-row>
-                          <h3 class="subtitle-1 mt-2">{{ job.recruiter.company.name }}</h3>
+                          <h3 class="subtitle-1 mt-2">company</h3>
                         </v-row>
                         <v-row>
                           <h5 class="caption subtitle-1 mt-1">{{ job.description }}</h5>
                         </v-row>
                         <v-row class="ml-n4 mt-2">
                           <v-chip
-                            v-for="categorie in job.categories"
+                            v-for="categorie in 3"
                             :key="categorie"
                             class="ma-1"
                             small
@@ -96,8 +98,7 @@
                           >
                             <v-avatar left>
                               <v-icon small>mdi-checkbox-marked-circle</v-icon>
-                            </v-avatar>
-                            {{categorie.name}}
+                            </v-avatar>categorie name
                           </v-chip>
                         </v-row>
                       </v-container>

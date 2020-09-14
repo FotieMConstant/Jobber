@@ -23,12 +23,12 @@
 
       <template v-else>
         <a @click="signOut">
-          <v-btn text large class="color-white">sign-out</v-btn></a
-        >
+          <v-btn text large class="color-white">sign-out</v-btn>
+        </a>
 
-        <router-link to="/Userprofile">
+        <router-link to="/jobseeker/profile">
           <v-avatar>
-            <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="User" />
+            <img :src="photoUrl" alt="User" />
           </v-avatar>
         </router-link>
       </template>
@@ -37,12 +37,9 @@
     <template v-if="currentUser">
       <v-navigation-drawer v-model="drawer" absolute temporary>
         <v-list nav dense>
-          <v-list-item-group
-            v-model="group"
-            active-class="deep-purple--text text--accent-4"
-          >
+          <v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4">
             <v-list-item-avatar>
-              <v-img src="https://cdn.vuetifyjs.com/images/john.jpg"></v-img>
+              <v-img :src="photoUrl"></v-img>
             </v-list-item-avatar>
 
             <v-list-item-content>
@@ -71,9 +68,12 @@
 
 <script>
 import database from "@/services/database";
+import firebase from "firebase";
+
 export default {
   data: () => ({
     drawer: false,
+    photoUrl: "", // for storing the current user's profile picture URL
   }),
 
   computed: {
@@ -82,6 +82,11 @@ export default {
     },
   },
 
+  mounted: function () {
+    // Getting the current login user
+    const user = firebase.auth().currentUser;
+    this.photoUrl = user.photoURL;
+  },
   methods: {
     // user to singout
     async signOut() {

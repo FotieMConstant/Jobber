@@ -4,20 +4,12 @@
             "languageId": 0,
             "jobSeekerId": "0"
         },
-        "language": {
-            "id": 0,
-            "languageName": "English"
-        },
         "languagelevel": "Native speaker"
     },
     {
         "id": {
             "languageId": 1,
             "jobSeekerId": "0"
-        },
-        "language": {
-            "id": 1,
-            "languageName": "French"
         },
         "languagelevel": "Native speaker"
     }

@@ -1,22 +1,6 @@
 [
     {
         "id": 0,
-        "recruiter": {
-            "id": "0",
-            "company": {
-                "id": 0,
-                "name": "haibasoft",
-                "description": "a really cool startup",
-                "logo": "https://dashboard.snapcraft.io/site_media/appmedia/2020/03/app_icon_512.png"
-            },
-            "recruiter": null,
-            "firstName": "dilan",
-            "lastName": "longla",
-            "tel": 678902145,
-            "email": "dilanlongla@yahoo.com",
-            "password": "dilanlongla",
-            "role": "Admin"
-        },
         "action": "delete",
         "target": "what was deleted",
         "datetime": "2020-03-09T12:13:21.000+00:00"
