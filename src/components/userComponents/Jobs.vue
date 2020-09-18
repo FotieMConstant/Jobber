@@ -45,7 +45,7 @@
       <p class="text-left mt-5">
         <i>
           Showing
-          <strong>{{jobs.length}}</strong> out of
+          <strong>{{ jobs.length }}</strong> out of
           <strong>277809</strong>
         </i>
       </p>
@@ -79,13 +79,17 @@
                     <v-card :elevation="0" class="pa-2">
                       <v-container class="lighten-5">
                         <v-row>
-                          <h2 class="title text-sm-left">{{ job.offerName }}</h2>
+                          <h2 class="title text-sm-left">
+                            {{ job.offerName }}
+                          </h2>
                         </v-row>
                         <v-row>
                           <h3 class="subtitle-1 mt-2">company</h3>
                         </v-row>
                         <v-row>
-                          <h5 class="caption subtitle-1 mt-1">{{ job.description }}</h5>
+                          <h5 class="caption subtitle-1 mt-1">
+                            {{ job.description }}
+                          </h5>
                         </v-row>
                         <v-row class="ml-n4 mt-2">
                           <v-chip
@@ -97,8 +101,10 @@
                             text-color="white"
                           >
                             <v-avatar left>
-                              <v-icon small>mdi-checkbox-marked-circle</v-icon>
-                            </v-avatar>categorie name
+                              <v-icon small
+                                >mdi-checkbox-marked-circle</v-icon
+                              > </v-avatar
+                            >categorie name
                           </v-chip>
                         </v-row>
                       </v-container>
@@ -113,7 +119,9 @@
                     <v-toolbar-title>Settings</v-toolbar-title>
                     <v-spacer></v-spacer>
                     <v-toolbar-items>
-                      <v-btn dark text @click="dialog[job.id] = false">Save</v-btn>
+                      <v-btn dark text @click="dialog[job.id] = false"
+                        >Save</v-btn
+                      >
                     </v-toolbar-items>
                   </v-toolbar>
 
@@ -121,7 +129,7 @@
                   <v-list three-line subheader>
                     <v-subheader>General</v-subheader>
                     <!-- Content -->
-                    Content here! ID = {{job.id}}
+                    Content here! ID = {{ job.id }}
                     <!-- / Content -->
                   </v-list>
                 </v-card>
@@ -131,7 +139,9 @@
                 <v-card :elevation="0" class="pa-2">
                   <v-container class="text-right font-weight-light">
                     <v-row>
-                      <span class="caption mb-4">{{ job.town }}, {{ job.country }}.</span>
+                      <span class="caption mb-4"
+                        >{{ job.town }}, {{ job.country }}.</span
+                      >
                     </v-row>
                     <v-row>
                       <span class="caption mb-7">
@@ -142,7 +152,10 @@
                       <span class="caption mb-1">
                         <i>
                           <!-- Auto-update time every 60 seconds -->
-                          <timeago :datetime="job.postedDate" :auto-update="60"></timeago>
+                          <timeago
+                            :datetime="job.postedDate"
+                            :auto-update="60"
+                          ></timeago>
                         </i>
                       </span>
                     </v-row>
@@ -150,7 +163,13 @@
                       <v-chip v-if="job.offerStatus == true" class="ma-1" small>
                         <v-icon left>mdi-check</v-icon>Open
                       </v-chip>
-                      <v-chip v-else class="ma-1" color="red" small text-color="white">
+                      <v-chip
+                        v-else
+                        class="ma-1"
+                        color="red"
+                        small
+                        text-color="white"
+                      >
                         <v-icon left>mdi-close</v-icon>Closed
                       </v-chip>
                     </v-row>
@@ -222,10 +241,10 @@ export default {
     },
   },
   //   Called after the instance has just been mounted where el is replaced by the newly created vm.$el.
-  mounted: function () {
-    setTimeout(() => {
-      this.showLoader = false;
-    }, 500);
+  mounted: function() {
+    // setTimeout(() => {
+    //   this.showLoader = false;
+    // }, 500);
 
     this.axios
       .get("http://localhost:8080/endpoints/joboffer.json")
@@ -237,7 +256,7 @@ export default {
       .catch((error) => {
         console.log(error);
       })
-      .finally(() => (this.loading = false));
+      .finally(() => (this.showLoader = false));
   },
 };
 </script>

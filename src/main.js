@@ -8,6 +8,7 @@ import axios from "axios";
 import VueAxios from "vue-axios";
 import VueTimeago from "vue-timeago";
 
+// Time ago component global call
 Vue.use(VueTimeago, {
   name: "Timeago", // Component name, `Timeago` by default
   locale: "en", // Default locale
@@ -18,6 +19,7 @@ Vue.use(VueTimeago, {
     ja: require("date-fns/locale/ja"),
   },
 });
+// Time ago component global call
 
 Vue.use(VueAxios, axios);
 Vue.config.productionTip = false;

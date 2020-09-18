@@ -22,6 +22,11 @@
       </template>
 
       <template v-else>
+        <router-link to="/jobseeker/profile">
+          <v-badge class="mr-5" small content="9+" :value="messages" color="red" overlap>
+            <v-icon>mdi-bell</v-icon>
+          </v-badge>
+        </router-link>
         <a @click="signOut">
           <v-btn text large class="color-white">sign-out</v-btn>
         </a>

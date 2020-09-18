@@ -22,7 +22,13 @@
                         require('../../assets/user_images/avatar-placeholder.png')
                       "
                     />
-                    <v-img v-else :src="photoUrl" rounded />
+                    <avatar
+                      v-else
+                      :src="photoUrl"
+                      :username="userProfile.firstName"
+                      :initials="userProfile.firstName"
+                      :size="150"
+                    ></avatar>
                   </v-avatar>
                 </v-card>
               </v-col>
@@ -32,19 +38,22 @@
                     <v-row>
                       <h2
                         class="title text-sm-left"
-                      >{{userProfile.firstName}} {{userProfile.lastName}}</h2>
+                      >{{ userProfile.firstName }} {{ userProfile.lastName }}</h2>
                     </v-row>
                     <v-row class="mt-2">
                       <v-icon class="ml-n1 mr-2">mdi-google-maps</v-icon>
-                      <span>{{userProfile.street}}, {{userProfile.town}}, {{userProfile.country}}, .</span>
+                      <span>
+                        {{ userProfile.street }}, {{ userProfile.town }},
+                        {{ userProfile.country }}, .
+                      </span>
                     </v-row>
                     <v-row class="mt-2">
                       <v-icon class="ml-n1 mr-2">mdi-email</v-icon>
-                      <span>{{userProfile.email}}</span>
+                      <span>{{ userProfile.email }}</span>
                     </v-row>
                     <v-row class="mt-2">
                       <v-icon class="ml-n1 mr-2">mdi-phone</v-icon>
-                      <span>{{userProfile.phoneNumber}}</span>
+                      <span>{{ userProfile.phoneNumber }}</span>
                     </v-row>
                     <v-row>
                       <h3 class="subtitle-1 mt-3">
@@ -115,10 +124,18 @@
                                   ></v-file-input>
                                   <v-avatar size="160" class="mt-4">
                                     <v-img
+                                      v-if="photoUrl == null"
                                       :src="
                                         require('../../assets/user_images/avatar-placeholder.png')
                                       "
                                     />
+                                    <avatar
+                                      v-else
+                                      :src="photoUrl"
+                                      :username="userProfile.firstName"
+                                      :initials="userProfile.firstName"
+                                      :size="150"
+                                    ></avatar>
                                   </v-avatar>
                                 </v-card>
                               </v-col>
@@ -282,21 +299,21 @@
                     <v-row>
                       <span class="caption mb-7 ml-1">
                         <a
-                          :href="'//' +userProfile.linkedin"
+                          :href="'//' + userProfile.linkedin"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
                           <v-icon large color="primary">mdi-linkedin</v-icon>
                         </a>
                         <a
-                          :href="'//' +userProfile.facebook"
+                          :href="'//' + userProfile.facebook"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
                           <v-icon large color="primary">mdi-facebook</v-icon>
                         </a>
                         <a
-                          :href="'//' +userProfile.twitter"
+                          :href="'//' + userProfile.twitter"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -307,7 +324,7 @@
                     <v-row>
                       <span class="mb-1 ml-1">
                         <v-chip
-                          :href="'//' +userProfile.website"
+                          :href="'//' + userProfile.website"
                           target="_blank"
                           class="ma-2"
                           color="cyan"
@@ -367,7 +384,7 @@
               <v-row>
                 <!-- Dialog for adding new experiences -->
 
-                <v-dialog v-model="dialog" persistent max-width="600px">
+                <v-dialog v-model="dialogExp" persistent max-width="600px">
                   <template v-slot:activator="{ on, attrs }">
                     <span class="ml-7 mb-1 mt-4">
                       <v-btn
@@ -392,28 +409,64 @@
                         <v-form>
                           <v-row>
                             <v-col cols="12" sm="4" md="6">
-                              <v-text-field label="Title *" autofocus required></v-text-field>
+                              <v-text-field
+                                label="Title *"
+                                v-model="experience.title"
+                                autofocus
+                                required
+                              ></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="4" md="6">
-                              <v-text-field label="Company *" required></v-text-field>
+                              <v-text-field label="Company *" v-model="experience.company" required></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="4" md="6">
-                              <v-text-field label="Tel *" required></v-text-field>
+                              <v-text-field label="Tel *" v-model="experience.tel" required></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="4" md="6">
-                              <v-text-field label="Email *" required></v-text-field>
+                              <v-text-field label="Email *" v-model="experience.email" required></v-text-field>
+                            </v-col>
+                            <v-col cols="12" sm="4" md="6">
+                              <v-text-field
+                                label="Location *"
+                                v-model="experience.location"
+                                required
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="12" sm="4" md="6">
+                              <v-text-field label="Country *" v-model="experience.country" required></v-text-field>
+                            </v-col>
+                            <v-col cols="12" sm="4" md="6">
+                              <v-text-field label="Town *" v-model="experience.town" required></v-text-field>
+                            </v-col>
+                            <v-col cols="12" sm="4" md="6">
+                              <v-text-field label="Street *" v-model="experience.street" required></v-text-field>
                             </v-col>
                             <v-col cols="12">
-                              <v-text-field label="Location *" required></v-text-field>
-                            </v-col>
-                            <v-col cols="12">
-                              <v-textarea label="Description *" type="text" required></v-textarea>
+                              <v-textarea
+                                label="Description *"
+                                type="text"
+                                v-model="experience.description"
+                                required
+                              ></v-textarea>
                             </v-col>
                             <v-col cols="12" sm="6">
-                              <v-text-field type="date" label="From *" required></v-text-field>
+                              <v-text-field
+                                type="date"
+                                label="From *"
+                                v-model="experience.startDate"
+                                required
+                              ></v-text-field>
                             </v-col>
-                            <v-col cols="12" sm="6">
-                              <v-text-field type="date" label="To *" required></v-text-field>
+                            <v-col cols="12" sm="6" v-if="checkbox == true">
+                              <v-text-field type="date" label="You currently work here *" disabled></v-text-field>
+                            </v-col>
+                            <v-col cols="12" sm="6" v-else>
+                              <v-text-field
+                                type="date"
+                                label="To *"
+                                v-model="experience.endDate"
+                                required
+                              ></v-text-field>
                             </v-col>
                             <v-col>
                               <v-checkbox
@@ -430,8 +483,8 @@
                     </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-                      <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn>
+                      <v-btn color="blue darken-1" text @click="dialogExp = false">Close</v-btn>
+                      <v-btn color="blue darken-1" text @click="createExperience">Save</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
@@ -461,22 +514,41 @@
                 </v-card>
               </v-col>
               <v-col cols="8">
-                <v-card :elevation="0" class="pa-2">
+                <v-card :elevation="0" class="pa-2 mt-n6">
                   <v-container class="lighten-5">
                     <v-row>
-                      <h4 class="text-sm-left">{{experience.title}}</h4>
-                      <span class="ml-2">{{experience.startDate}} - {{experience.endDate}}</span>
+                      <h4 class="text-sm-left">{{ experience.title }}</h4>
+                    </v-row>
+                    <v-row>
+                      <small>
+                        <span class="mt-5">
+                          Started
+                          <timeago :datetime="experience.startDate" :auto-update="60"></timeago> -
+                          <span v-if="experience.endDate == null">
+                            You still work here
+                          </span>
+                          <span v-else>
+                             <timeago :datetime="experience.endDate" :auto-update="60"></timeago>
+                          </span>
+                        </span>
+                      </small>
                     </v-row>
                     <v-row class="mt-2">
-                      <span
-                        class="subtitle-2 light"
-                      >{{experience.company}}, E-mail: {{experience.email}}, Tel: {{experience.tel}}</span>
+                      <span class="subtitle-2 light">
+                        {{ experience.company }}, E-mail:
+                        {{ experience.email }}, Tel: {{ experience.tel }}
+                      </span>
                     </v-row>
-                    <v-row
-                      class="mt-2"
-                    >{{experience.town}}, {{experience.country}} ({{experience.street}}).</v-row>
+                    <v-row class="mt-2">
+                      {{ experience.town }}, {{ experience.country }} ({{
+                      experience.street
+                      }}).
+                    </v-row>
+                    <v-row class="mt-2 mb-2">
+                      <v-divider></v-divider>
+                    </v-row>
                     <v-row class="text-sm-left mt-2">
-                      <span>{{experience.description}}</span>
+                      <small>{{ experience.description }}</small>
                     </v-row>
                   </v-container>
                 </v-card>
@@ -608,18 +680,29 @@
                 <v-card :elevation="0" class="pa-2">
                   <v-container class="lighten-5">
                     <v-row>
-                      <h4 class="text-sm-left">{{education.institution}}</h4>
-                      <span class="ml-2">{{education.startDate}} - {{education.endDate}}</span>
+                      <h4 class="text-sm-left">{{ education.institution }}</h4>
+                      <span class="ml-2">
+                        {{ education.startDate }} -
+                        {{ education.endDate }}
+                      </span>
                     </v-row>
                     <v-row class="mt-2">
-                      <span class="subtitle-2 light">{{education.major}}</span>
+                      <span class="subtitle-2 light">
+                        {{
+                        education.major
+                        }}
+                      </span>
                     </v-row>
                     <v-row class="text-sm-left mt-2">
-                      <span>{{education.degree}}</span>
+                      <span>{{ education.degree }}</span>
                     </v-row>
-                    <v-row>{{education.town}}, {{education.country}} ({{education.street}}).</v-row>
+                    <v-row>
+                      {{ education.town }}, {{ education.country }} ({{
+                      education.street
+                      }}).
+                    </v-row>
                     <v-row class="text-sm-left mt-2">
-                      <span>{{education.description}}</span>
+                      <span>{{ education.description }}</span>
                     </v-row>
                   </v-container>
                 </v-card>
@@ -680,22 +763,49 @@
                         <v-form>
                           <v-row>
                             <v-col cols="12" sm="4" md="6">
-                              <v-text-field label="Name *" autofocus required></v-text-field>
+                              <v-text-field
+                                label="Name *"
+                                autofocus
+                                required
+                                v-model="certification.name"
+                              ></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="4" md="6">
-                              <v-text-field label="Organisation *" required></v-text-field>
+                              <v-text-field
+                                label="Organisation *"
+                                required
+                                v-model="certification.organisation"
+                              ></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="4" md="6">
-                              <v-text-field type="date" label="Issue date *" required></v-text-field>
+                              <v-text-field
+                                type="date"
+                                label="Issue date *"
+                                required
+                                v-model="certification.issueDate"
+                              ></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="4" md="6">
-                              <v-text-field type="date" label="Expiry date *" required></v-text-field>
+                              <v-text-field
+                                type="date"
+                                label="Expiry date *"
+                                required
+                                v-model="certification.expiryDate"
+                              ></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="4" md="6">
-                              <v-text-field label="Credential ID *" required></v-text-field>
+                              <v-text-field
+                                label="Credential ID *"
+                                required
+                                v-model="certification.credentialId"
+                              ></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="4" md="6">
-                              <v-text-field label="Credential URL *" required></v-text-field>
+                              <v-text-field
+                                label="Credential URL *"
+                                required
+                                v-model="certification.credentialURL"
+                              ></v-text-field>
                             </v-col>
                           </v-row>
                         </v-form>
@@ -705,7 +815,7 @@
                     <v-card-actions>
                       <v-spacer></v-spacer>
                       <v-btn color="blue darken-1" text @click="dialogCertif = false">Close</v-btn>
-                      <v-btn color="blue darken-1" text @click="dialogCertif = false">Save</v-btn>
+                      <v-btn color="blue darken-1" text @click="createCertification">Save</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
@@ -719,7 +829,7 @@
             <!-- Content -->
             <v-row
               v-for="certifications in userProfile.certificationses"
-              :key="certifications"
+              :key="certifications.id"
               no-gutters
               v-else
             >
@@ -738,22 +848,32 @@
                 <v-card :elevation="0" class="pa-2">
                   <v-container class="lighten-5">
                     <v-row>
-                      <h4 class="text-sm-left">{{certifications.name}}</h4>
+                      <h4 class="text-sm-left">{{ certifications.name }}</h4>
                     </v-row>
                     <v-row class="mt-2">
-                      <span class="subtitle-2 light">{{certifications.organisation}}</span>
+                      <span class="subtitle-2 light">
+                        {{
+                        certifications.organisation
+                        }}
+                      </span>
                     </v-row>
                     <v-row class="text-sm-left">
                       <small>
-                        Issued {{certifications.issueDate}} -
-                        <span
-                          v-if="certifications.expiryDate == null"
-                        >No Expiry date</span>
-                        <span v-else>{{certifications.expiryDate}}</span>
+                        Issued
+                        <timeago :datetime="certifications.issueDate" :auto-update="60"></timeago>-
+                        <span v-if="certifications.expiryDate == null">No Expiry date</span>
+                        <span v-else>
+                          <!-- Auto-update time every 60 seconds -->
+                          Expires
+                          <timeago :datetime="certifications.expiryDate" :auto-update="60"></timeago>
+                        </span>
                       </small>
                     </v-row>
                     <v-row class="text-sm-left">
-                      <small>Credential ID # {{certifications.credentialId}}</small>
+                      <small>
+                        Credential ID #
+                        {{ certifications.credentialId }}
+                      </small>
                     </v-row>
                     <v-row class="text-sm-left">
                       <small>
@@ -873,11 +993,11 @@
                 <v-card :elevation="0" class="pa-2">
                   <v-container class="lighten-5">
                     <v-row>
-                      <h4 class="text-sm-left">{{languagespoken.language.languageName}}</h4>
+                      <h4 class="text-sm-left">{{ languagespoken.language.languageName }}</h4>
                     </v-row>
 
                     <v-row class="text-sm-left">
-                      <small>{{languagespoken.languagelevel}}</small>
+                      <small>{{ languagespoken.languagelevel }}</small>
                     </v-row>
                   </v-container>
                 </v-card>
@@ -907,13 +1027,39 @@
 <script>
 import Skeletonjobsloader from "./Skeletonjobsloader.vue";
 import firebase from "firebase";
+import Avatar from "vue-avatar";
+import axios from "axios";
 
 export default {
   components: {
     Skeletonjobsloader,
+    Avatar,
   },
   data() {
     return {
+      certification: {
+        // Certification data
+        name: "",
+        organisation: "",
+        issueDate: "",
+        expiryDate: "",
+        credentialId: "",
+        credentialURL: "",
+      },
+      experience: {
+        // Experience data
+        title: "",
+        tel: "",
+        email: "",
+        company: "",
+        location: "",
+        description: "",
+        startDate: "",
+        endDate: "",
+        country: "",
+        town: "",
+        street: "",
+      },
       userProfile: null,
       dropdownProficiency: [
         "Elementary proficiency",
@@ -924,11 +1070,11 @@ export default {
       ],
       photoUrl: "", // for storing the current user's profile picture URL
       showLoader: true,
-      dialog: false, // data for the dialog box of Experience
+      dialogExp: false, // data for the dialog box of Experience
       dialogEdu: false, // data for the dialog box of Education
       dialogCertif: false, // data for the dialog box of Certification
       dialogLang: false, // data for the dialog box of Languages
-      checkbox: true, //For the checkbox of currently work here
+      checkbox: false, //For the checkbox of currently work here
       dialogEdit: false,
       notifications: false,
       sound: true,
@@ -943,10 +1089,6 @@ export default {
   },
   //   Called after the instance has just been mounted where el is replaced by the newly created vm.$el.
   mounted: function () {
-    setTimeout(() => {
-      this.showLoader = false;
-    }, 300);
-
     // Variables for my request
     const username = "admin";
     const password = "dilan";
@@ -975,8 +1117,125 @@ export default {
       .catch((error) => {
         console.log(error);
       })
-      .finally(() => (this.loading = false));
+      .finally(() => (this.showLoader = false));
     // End of request
+  },
+
+  // All functions of this component
+  methods: {
+    //Generate ID function for what will be sent to the backend
+    generateUniqueId: function () {
+      var text = "";
+      var possible = "0123456789";
+
+      for (var i = 0; i < 5; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+      console.log(text);
+      return text;
+    },
+
+    // function to save certifications to the backend
+    createCertification: function () {
+      this.dialogCertif = false; // data for the dialog box of Certification
+      // Getting the current login user
+      var user = firebase.auth().currentUser;
+
+      // Variables for my request
+      const username = "admin";
+      const password = "dilan";
+
+      // Data to be sent to the endpoint
+      const certificationDataObject = {
+        id: this.generateUniqueId(),
+        name: this.certification.name,
+        organisation: this.certification.organisation,
+        issueDate: this.certification.issueDate,
+        expiryDate: this.certification.expiryDate,
+        credentialId: this.certification.credentialId,
+        credentialUrl: this.certification.credentialURL,
+        jobseeker: {
+          id: user.uid,
+        },
+      };
+      console.log(certificationDataObject);
+      const token = Buffer.from(`${username}:${password}`, "utf8").toString(
+        "base64"
+      );
+
+      const url = `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/certification/`;
+      console.log(url);
+      axios
+        .post(url, certificationDataObject, {
+          headers: {
+            Authorization: `Basic ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log("Successfully sent certification to backend");
+          console.log(typeof response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => (this.showLoader = false));
+      // End of request
+      this.$mount(); // refresh the rout to fetch for chenages
+    },
+    // End of certification function
+
+    // function to save experience to the backend
+    createExperience: function () {
+      this.dialogExp = false; // data for the dialog box of Certification
+      // Getting the current login user
+      var user = firebase.auth().currentUser;
+
+      // Variables for my request
+      const username = "admin";
+      const password = "dilan";
+
+      // Data to be sent to the endpoint
+      const experienceDataObject = {
+        id: this.generateUniqueId(),
+        title: this.experience.title,
+        tel: this.experience.tel,
+        email: this.experience.email,
+        company: this.experience.company,
+        location: this.experience.location,
+        description: this.experience.description,
+        startDate: this.experience.startDate,
+        endDate: this.experience.endDate,
+        country: this.experience.country,
+        town: this.experience.town,
+        street: this.experience.street,
+        jobseeker: {
+          id: user.uid,
+        },
+      };
+      console.log(experienceDataObject);
+      const token = Buffer.from(`${username}:${password}`, "utf8").toString(
+        "base64"
+      );
+
+      const url = `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/experience/`;
+      console.log(url);
+      axios
+        .post(url, experienceDataObject, {
+          headers: {
+            Authorization: `Basic ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log("Successfully sent experience to backend");
+          console.log(typeof response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => (this.showLoader = false));
+      // End of request
+      this.$mount(); // refresh the rout to fetch for chenages
+    },
+    // End of experience function
   },
 };
 </script>
