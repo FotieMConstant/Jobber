@@ -6,6 +6,7 @@ import Signup from "../views/Signup.vue";
 import Jobs from "../views/Jobs.vue";
 import Userprofile from "../views/Userprofile.vue";
 import Videocall from "../views/Videocall.vue";
+import Setupprofile from "../views/Setupprofile.vue";
 import Recruiterprofile from "../views/RecruiterViews/Recruiterprofile.vue";
 import store from "@/store/store";
 
@@ -60,6 +61,15 @@ const routes = [
     component: Videocall,
     meta: {
       title: "Video call",
+    },
+  },
+  {
+    path: "/jobseeker/base/v1/setup",
+    name: "Setupprofile",
+    component: Setupprofile,
+    meta: {
+      auth: false,
+      title: "Base setup profile",
     },
   },
 

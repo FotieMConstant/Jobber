@@ -96,7 +96,7 @@ export default {
         this.snackbar = true;
       } else {
         // alert("User created!");
-        this.$router.push("/");
+        this.$router.push("/jobseeker/base/v1/setup");
       }
     },
 
@@ -110,7 +110,7 @@ export default {
         this.snackbar = true;
       } else {
         // alert("User is signed-in");
-        this.$router.push("/");
+        this.$router.push("/jobseeker/base/v1/setup");
       }
     },
     // End of Signup with google
