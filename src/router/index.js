@@ -23,7 +23,7 @@ const routes = [
     },
   },
   {
-    path: "/Login",
+    path: "/jobseeker/login",
     name: "Login",
     component: Login,
     meta: {
@@ -31,7 +31,7 @@ const routes = [
     },
   },
   {
-    path: "/Signup",
+    path: "/jobseeker/signup",
     name: "Signup",
     component: Signup,
     meta: {
@@ -102,7 +102,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if (to.meta.auth && !store.state.currentUser) {
     next({
-      path: "/Login",
+      path: "/jobseeker/login",
     });
   } else {
     next();

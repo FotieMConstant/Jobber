@@ -12,11 +12,11 @@
       <v-spacer></v-spacer>
 
       <template v-if="!currentUser">
-        <router-link to="/Login">
+        <router-link to="/jobseeker/login">
           <v-btn text large class="color-white">Login</v-btn>
         </router-link>
 
-        <router-link to="/Signup">
+        <router-link to="/jobseeker/signup">
           <v-btn text large class="color-white">Signup</v-btn>
         </router-link>
       </template>
@@ -96,7 +96,7 @@ export default {
     // user to singout
     async signOut() {
       await database.signOut();
-      this.$router.push("/Login");
+      this.$router.push("/jobseeker/login");
     },
   },
 };

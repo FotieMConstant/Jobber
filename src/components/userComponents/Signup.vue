@@ -1,12 +1,28 @@
 <template>
-  <v-card id="wrapper" class="pa-12 mx-auto" elevation="12" height="440" max-width="500">
+  <v-card
+    id="wrapper"
+    class="pa-12 mx-auto"
+    elevation="12"
+    height="440"
+    max-width="500"
+  >
     <v-card-title class="title font-weight-regular justify-space-between">
       <span>Sign-up</span>
-      <v-avatar color="secondary lighten-2" class="subheading white--text" size="24"></v-avatar>
+      <v-avatar
+        color="secondary lighten-2"
+        class="subheading white--text"
+        size="24"
+      ></v-avatar>
     </v-card-title>
 
     <v-form @submit.prevent="signUp" v-model="valid" :lazy-validation="lazy">
-      <v-text-field class="mb-9" v-model="email" :rules="emailRules" label="E-mail" required></v-text-field>
+      <v-text-field
+        class="mb-9"
+        v-model="email"
+        :rules="emailRules"
+        label="E-mail"
+        required
+      ></v-text-field>
 
       <v-text-field
         class="mb-9"
@@ -19,7 +35,13 @@
       ></v-text-field>
 
       <div class="text-center">
-        <v-btn type="submit" class="mx-auto" color="warning" @submit.prevent="signUp">Let's do this</v-btn>
+        <v-btn
+          type="submit"
+          class="mx-auto"
+          color="warning"
+          @submit.prevent="signUp"
+          >Let's do this</v-btn
+        >
         <br />
         <div class="caption mt-2">OR</div>
         <button @click="googleSignUp" type="button" class="google-button mt-2">
@@ -52,10 +74,12 @@
       </div>
     </v-form>
 
-    <v-snackbar color="error" v-if="error" v-model="snackbar" :timeout="10000">
+    <v-snackbar color="error" v-if="error" v-model="snackbar" :timeout="5000">
       {{ error }}
       <template v-slot:action="{ attrs }">
-        <v-btn color="white" text v-bind="attrs" @click="snackbar = false">Close</v-btn>
+        <v-btn color="white" text v-bind="attrs" @click="snackbar = false"
+          >Close</v-btn
+        >
       </template>
     </v-snackbar>
   </v-card>

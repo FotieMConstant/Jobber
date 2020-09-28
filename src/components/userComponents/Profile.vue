@@ -17,18 +17,12 @@
                 <v-card :elevation="0" class="pa-2">
                   <v-avatar size="160" class="mt-4">
                     <v-img
-                      v-if="photoUrl == null"
+                      v-if="photoUrl == true"
                       :src="
                         require('../../assets/user_images/avatar-placeholder.png')
                       "
                     />
-                    <avatar
-                      v-else
-                      :src="photoUrl"
-                      :username="userProfile.firstName"
-                      :initials="userProfile.firstName"
-                      :size="150"
-                    ></avatar>
+                    <avatar v-else :src="userProfile.profilePhoto" :username="userProfile.firstName" :size="150"></avatar>
                   </v-avatar>
                 </v-card>
               </v-col>
@@ -457,7 +451,7 @@
                                 required
                               ></v-text-field>
                             </v-col>
-                            <v-col cols="12" sm="6" v-if="checkbox == true">
+                            <v-col cols="12" sm="6" v-if="checkboxWork == true">
                               <v-text-field type="date" label="You currently work here *" disabled></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="6" v-else>
@@ -470,9 +464,9 @@
                             </v-col>
                             <v-col>
                               <v-checkbox
-                                v-model="checkbox"
+                                v-model="checkboxWork"
                                 :label="
-                                  `I currently work here: ${checkbox.toString()}`
+                                  `I currently work here: ${checkboxWork.toString()}`
                                 "
                               ></v-checkbox>
                             </v-col>
@@ -523,12 +517,10 @@
                       <small>
                         <span class="mt-5">
                           Started
-                          <timeago :datetime="experience.startDate" :auto-update="60"></timeago> -
-                          <span v-if="experience.endDate == null">
-                            You still work here
-                          </span>
+                          <timeago :datetime="experience.startDate" :auto-update="60"></timeago>-
+                          <span v-if="experience.endDate == null">You still work here</span>
                           <span v-else>
-                             <timeago :datetime="experience.endDate" :auto-update="60"></timeago>
+                            <timeago :datetime="experience.endDate" :auto-update="60"></timeago>
                           </span>
                         </span>
                       </small>
@@ -609,38 +601,68 @@
                         <v-form>
                           <v-row>
                             <v-col cols="12" sm="4" md="6">
-                              <v-text-field label="Institution *" autofocus required></v-text-field>
+                              <v-text-field
+                                label="Institution *"
+                                v-model="education.institution"
+                                autofocus
+                                required
+                              ></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="4" md="6">
-                              <v-text-field label="Major *" required></v-text-field>
+                              <v-text-field label="Major *" v-model="education.major" required></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="4" md="6">
-                              <v-text-field label="Degree *" required></v-text-field>
+                              <v-text-field label="Degree *" v-model="education.degree" required></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="4" md="6">
-                              <v-text-field label="Country *" required></v-text-field>
+                              <v-text-field label="Country *" v-model="education.country" required></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="4" md="6">
-                              <v-text-field label="Town *" required></v-text-field>
+                              <v-text-field label="Town *" v-model="education.town" required></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="4" md="6">
-                              <v-text-field label="Street *" required></v-text-field>
+                              <v-text-field label="Street *" v-model="education.street" required></v-text-field>
                             </v-col>
 
                             <v-col cols="12">
-                              <v-textarea label="Description *" type="text" required></v-textarea>
+                              <v-textarea
+                                label="Description *"
+                                v-model="education.description"
+                                type="text"
+                                required
+                              ></v-textarea>
                             </v-col>
                             <v-col cols="12" sm="6">
-                              <v-text-field type="date" label="From *" required></v-text-field>
+                              <v-text-field
+                                type="date"
+                                label="From *"
+                                v-model="education.startDate"
+                                required
+                              ></v-text-field>
                             </v-col>
-                            <v-col cols="12" sm="6">
-                              <v-text-field type="date" label="To *" required></v-text-field>
+                            <v-col cols="12" sm="6" v-if="checkboxEdu == true">
+                              <v-text-field
+                                type="date"
+                                label="You currently study here *"
+                                v-model="education.endDate"
+                                required
+                                disabled
+                              ></v-text-field>
                             </v-col>
+                            <v-col cols="12" sm="6" v-else>
+                              <v-text-field
+                                type="date"
+                                label="To *"
+                                v-model="education.endDate"
+                                required
+                              ></v-text-field>
+                            </v-col>
+
                             <v-col>
                               <v-checkbox
-                                v-model="checkbox"
+                                v-model="checkboxEdu"
                                 :label="
-                                  `I currently attend: ${checkbox.toString()}`
+                                  `I currently attend: ${checkboxEdu.toString()}`
                                 "
                               ></v-checkbox>
                             </v-col>
@@ -652,7 +674,7 @@
                     <v-card-actions>
                       <v-spacer></v-spacer>
                       <v-btn color="blue darken-1" text @click="dialogEdu = false">Close</v-btn>
-                      <v-btn color="blue darken-1" text @click="dialogEdu = false">Save</v-btn>
+                      <v-btn color="blue darken-1" text @click="createEducation">Save</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
@@ -664,10 +686,16 @@
             <Skeletonjobsloader v-if="showLoader" />
             <!-- /Loader -->
             <!-- Content -->
-            <v-row v-for="education in userProfile.educations" :key="education" no-gutters v-else>
+            <v-row
+              class="mt-n7"
+              v-for="education in userProfile.educations"
+              :key="education"
+              no-gutters
+              v-else
+            >
               <v-col cols="2">
                 <v-card :elevation="0" class="pa-2">
-                  <v-avatar class="mt-4">
+                  <v-avatar class="mt-10">
                     <v-img
                       :src="
                         require('../../assets/user_images/education-default.png')
@@ -681,28 +709,38 @@
                   <v-container class="lighten-5">
                     <v-row>
                       <h4 class="text-sm-left">{{ education.institution }}</h4>
-                      <span class="ml-2">
-                        {{ education.startDate }} -
-                        {{ education.endDate }}
-                      </span>
                     </v-row>
                     <v-row class="mt-2">
-                      <span class="subtitle-2 light">
+                      <span class="subtitle-2 light mr-1">
                         {{
                         education.major
                         }}
                       </span>
-                    </v-row>
-                    <v-row class="text-sm-left mt-2">
-                      <span>{{ education.degree }}</span>
+                      <span class="subtitle-2 light">• {{ education.degree }}</span>
                     </v-row>
                     <v-row>
+                      <span class="mt-1 font-weight-regular caption">
+                        <i>
+                          Started
+                          <timeago :datetime="education.startDate" :auto-update="60"></timeago>-
+                          <span v-if="education.endDate == null">No Expiry date</span>
+                          <span v-else>
+                            <!-- Auto-update time every 60 seconds -->
+                            End
+                            <timeago :datetime="education.endDate" :auto-update="60"></timeago>
+                          </span>
+                        </i>
+                      </span>
+                    </v-row>
+
+                    <v-row class="caption">
                       {{ education.town }}, {{ education.country }} ({{
                       education.street
                       }}).
                     </v-row>
+                    <v-divider></v-divider>
                     <v-row class="text-sm-left mt-2">
-                      <span>{{ education.description }}</span>
+                      <span class="caption">{{ education.description }}</span>
                     </v-row>
                   </v-container>
                 </v-card>
@@ -785,7 +823,16 @@
                                 v-model="certification.issueDate"
                               ></v-text-field>
                             </v-col>
-                            <v-col cols="12" sm="4" md="6">
+                            <v-col cols="12" sm="4" md="6" v-if="checkboxCertif == true">
+                              <v-text-field
+                                type="date"
+                                label="No Expiry date*"
+                                required
+                                v-model="certification.expiryDate"
+                                disabled
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="12" sm="4" md="6" v-else>
                               <v-text-field
                                 type="date"
                                 label="Expiry date *"
@@ -808,6 +855,14 @@
                               ></v-text-field>
                             </v-col>
                           </v-row>
+                          <v-col>
+                            <v-checkbox
+                              v-model="checkboxCertif"
+                              :label="
+                                  `Certification doesn't expire: ${checkboxCertif.toString()}`
+                                "
+                            ></v-checkbox>
+                          </v-col>
                         </v-form>
                       </v-container>
                       <small>* indicates required field</small>
@@ -828,6 +883,7 @@
             <!-- /Loader -->
             <!-- Content -->
             <v-row
+              class="mt-n5"
               v-for="certifications in userProfile.certificationses"
               :key="certifications.id"
               no-gutters
@@ -835,7 +891,7 @@
             >
               <v-col cols="2">
                 <v-card :elevation="0" class="pa-2">
-                  <v-avatar class="mt-4">
+                  <v-avatar class="mt-10">
                     <v-img
                       :src="
                         require('../../assets/user_images/certification-default.png')
@@ -1037,6 +1093,7 @@ export default {
   },
   data() {
     return {
+      componentKey: 0,
       certification: {
         // Certification data
         name: "",
@@ -1060,6 +1117,18 @@ export default {
         town: "",
         street: "",
       },
+      education: {
+        // Education data
+        institution: "",
+        major: "",
+        degree: "",
+        country: "",
+        town: "",
+        street: "",
+        description: "",
+        startDate: "",
+        endDate: "",
+      },
       userProfile: null,
       dropdownProficiency: [
         "Elementary proficiency",
@@ -1074,7 +1143,9 @@ export default {
       dialogEdu: false, // data for the dialog box of Education
       dialogCertif: false, // data for the dialog box of Certification
       dialogLang: false, // data for the dialog box of Languages
-      checkbox: false, //For the checkbox of currently work here
+      checkboxWork: false, //For the checkbox of currently work here
+      checkboxCertif: false, // For the checkbox of No expiry date of certification
+      checkboxEdu: false, // For the checkbox of currently school here
       dialogEdit: false,
       notifications: false,
       sound: true,
@@ -1236,6 +1307,57 @@ export default {
       this.$mount(); // refresh the rout to fetch for chenages
     },
     // End of experience function
+
+    // function to save education to the backend
+    createEducation: function () {
+      this.dialogEdu = false; // data for the dialog box of education
+      // Getting the current login user
+      var user = firebase.auth().currentUser;
+
+      // Variables for my request
+      const username = "admin";
+      const password = "dilan";
+
+      // Data to be sent to the endpoint
+      const educationDataObject = {
+        id: this.generateUniqueId(),
+        institution: this.education.institution,
+        major: this.education.major,
+        degree: this.education.degree,
+        country: this.education.country,
+        town: this.education.town,
+        street: this.education.street,
+        description: this.education.description,
+        startDate: this.education.startDate,
+        endDate: this.education.endDate,
+        jobseeker: {
+          id: user.uid,
+        },
+      };
+      console.log(educationDataObject);
+      const token = Buffer.from(`${username}:${password}`, "utf8").toString(
+        "base64"
+      );
+
+      const url = `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/education/`;
+      console.log(url);
+      axios
+        .post(url, educationDataObject, {
+          headers: {
+            Authorization: `Basic ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log("Successfully sent Education to backend");
+          console.log(typeof response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => (this.showLoader = false));
+      // End of request
+    },
+    // End of education function
   },
 };
 </script>

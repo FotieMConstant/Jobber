@@ -87,13 +87,13 @@
                           <h3 class="subtitle-1 mt-2">company</h3>
                         </v-row>
                         <v-row>
-                          <h5 class="caption subtitle-1 mt-1">
+                          <h5 class="caption subtitle-1 mt-1 text-sm-left">
                             {{ job.description }}
                           </h5>
                         </v-row>
                         <v-row class="ml-n4 mt-2">
                           <v-chip
-                            v-for="categorie in 3"
+                            v-for="categorie in job.categories"
                             :key="categorie"
                             class="ma-1"
                             small
@@ -104,7 +104,7 @@
                               <v-icon small
                                 >mdi-checkbox-marked-circle</v-icon
                               > </v-avatar
-                            >categorie name
+                            >{{ categorie.name }}
                           </v-chip>
                         </v-row>
                       </v-container>
@@ -116,20 +116,123 @@
                     <v-btn icon dark @click="dialog[job.id] = false">
                       <v-icon>mdi-close</v-icon>
                     </v-btn>
-                    <v-toolbar-title>Settings</v-toolbar-title>
+                    <v-toolbar-title>Appy for Job</v-toolbar-title>
                     <v-spacer></v-spacer>
-                    <v-toolbar-items>
-                      <v-btn dark text @click="dialog[job.id] = false"
-                        >Save</v-btn
-                      >
-                    </v-toolbar-items>
                   </v-toolbar>
 
                   <v-divider></v-divider>
                   <v-list three-line subheader>
-                    <v-subheader>General</v-subheader>
+                    <v-row class="ma-10">
+                      <v-col cols="8">
+                        <v-row>
+                          <v-card class="mt-n3">
+                            <v-avatar size="100">
+                              <v-img
+                                src="https://dashboard.snapcraft.io/site_media/appmedia/2020/03/app_icon_512.png"
+                              />
+                            </v-avatar>
+                          </v-card>
+                        </v-row>
+                        <v-row>
+                          <h2 class="title text-sm-left mt-3">
+                            {{ job.offerName }}
+                          </h2>
+                        </v-row>
+                        <v-row>
+                          <h4 class="text-sm-left mt-3 font-weight-light">
+                            Company
+                          </h4>
+                        </v-row>
+                        <v-row>
+                          <h5 class="text-sm-left mt-3 font-weight-light">
+                            Salary: XAF {{ job.salary }}
+                          </h5>
+                        </v-row>
+                        <v-row>
+                          <h5 class="text-sm-left mt-3 font-weight-light">
+                            <!-- Auto-update time every 60 seconds -->
+                            Posted
+                            <timeago
+                              :datetime="job.postedDate"
+                              :auto-update="60"
+                            ></timeago>
+                          </h5>
+                        </v-row>
+
+                        <v-row>
+                          <div class="mt-3" v-if="job.offerStatus == true">
+                            <v-btn color="primary" depressed>Apply Now</v-btn>
+                          </div>
+                          <div class="mt-3" v-else>
+                            <v-btn color="primary" depressed disabled
+                              >Apply Now</v-btn
+                            >
+                          </div>
+                        </v-row>
+                        <v-row>
+                          <span
+                            v-if="job.offerStatus == false"
+                            class="caption mt-3"
+                            >This job offer is closed at the moment, please
+                            check back later</span
+                          >
+                          <span v-else class="caption mt-3"
+                            >You can apply for this job offer</span
+                          >
+                        </v-row>
+                      </v-col>
+                      <v-col cols="4">
+                        <v-row>
+                          <h1 class="title text-sm-right mt-n6">
+                            People also viewed
+                          </h1>
+                        </v-row>
+                        <v-row class="people-also-viewed">
+                          <v-card
+                            absolute
+                            v-for="jobsViewed in jobs"
+                            :key="jobsViewed"
+                            elevation="0"
+                            class="mx-auto text-sm-left ml-n1"
+                            max-width="344"
+                          >
+                            <v-list-item three-line>
+                              <v-list-item-content>
+                                <v-list-item-title class="headline mb-1">{{
+                                  jobsViewed.offerName
+                                }}</v-list-item-title>
+                                <v-list-item-subtitle>{{
+                                  jobsViewed.description
+                                }}</v-list-item-subtitle>
+                              </v-list-item-content>
+
+                              <v-list-item-avatar tile size="80">
+                                <v-avatar size="100">
+                                  <v-img
+                                    src="https://dashboard.snapcraft.io/site_media/appmedia/2020/03/app_icon_512.png"
+                                  />
+                                </v-avatar>
+                              </v-list-item-avatar>
+                            </v-list-item>
+                            <v-divider></v-divider>
+                          </v-card>
+                        </v-row>
+                      </v-col>
+                    </v-row>
+                    <v-col cols="8">
+                      <v-row>
+                        <h1 class="title text-sm-left ml-10">
+                          Job description
+                        </h1>
+                      </v-row>
+                      <v-row>
+                        <v-subheader class="text-sm-left mt-10 ml-7">{{
+                          job.description
+                        }}</v-subheader>
+                      </v-row>
+                    </v-col>
                     <!-- Content -->
-                    Content here! ID = {{ job.id }}
+
                     <!-- / Content -->
                   </v-list>
                 </v-card>
@@ -187,6 +290,8 @@
 
 <script>
 import Skeletonjobsloader from "./Skeletonjobsloader.vue";
+import firebase from "firebase";
+
 export default {
   components: {
     Skeletonjobsloader,
@@ -241,22 +346,69 @@ export default {
     },
   },
   //   Called after the instance has just been mounted where el is replaced by the newly created vm.$el.
-  mounted: function() {
-    // setTimeout(() => {
-    //   this.showLoader = false;
-    // }, 500);
+  mounted: function () {
+    setTimeout(() => {
+      this.showLoader = false;
+    }, 5000);
+    // Variables for my request
+    const username = "admin";
+    const password = "dilan";
+
+    const token = Buffer.from(`${username}:${password}`, "utf8").toString(
+      "base64"
+    );
+
+    // Getting the current login user
+    const user = firebase.auth().currentUser;
+    this.photoUrl = user.photoURL;
+
+    const url = `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/joboffer/`;
 
     this.axios
-      .get("http://localhost:8080/endpoints/joboffer.json")
+      .get(url, {
+        headers: {
+          Authorization: `Basic ${token}`,
+        },
+      })
       .then((response) => {
-        // Seeting the response to the jobs variable
         this.jobs = response.data;
         console.log(response.data);
+        console.log(typeof response.data);
       })
       .catch((error) => {
         console.log(error);
       })
       .finally(() => (this.showLoader = false));
+    // End of request
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.people-also-viewed {
+  height: 300px;
+  overflow: scroll;
+  overflow-x: hidden;
+  position: relative;
+}
+.people-also-viewed::-webkit-scrollbar-track {
+  background-color: #f5f5f5;
+}
+.people-also-viewed::-webkit-scrollbar {
+  width: 10px;
+  background-color: #f5f5f5;
+}
+
+.people-also-viewed::-webkit-scrollbar-thumb {
+  background-color: #0ae;
+
+  background-image: -webkit-gradient(
+    linear,
+    0 0,
+    0 100%,
+    color-stop(0.5, rgba(255, 255, 255, 0.2)),
+    color-stop(0.5, transparent),
+    to(transparent)
+  );
+}
+</style>

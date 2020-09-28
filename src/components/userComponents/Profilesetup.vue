@@ -8,7 +8,7 @@
   >
     <v-layout justify-center class="mb-5 mt-n5">
       <avatar
-        v-if="currentProfilePicture"
+        v-if="currentProfilePicture == true"
         :src="currentProfilePicture"
         :username="currentUserEmail"
         :initials="currentUserEmail"
@@ -134,9 +134,9 @@
             <v-col cols="12" sm="6">
               <div class="my-2">
                 Pick a diplay picture
-                <v-btn text small color="primary"
-                  ><input @change="onFileChange" type="file"
-                /></v-btn>
+                <v-btn text small color="primary">
+                  <input @change="onFileChange" type="file" />
+                </v-btn>
               </div>
             </v-col>
             <v-col cols="12" sm="6">
@@ -166,10 +166,10 @@
         <v-btn color="primary" @click="e6 = 2">next</v-btn>
       </v-stepper-content>
 
-      <v-stepper-step :complete="e6 > 2" step="2"
-        >Configure security for your jobber account
-        <small>Secure your account with a password!</small></v-stepper-step
-      >
+      <v-stepper-step :complete="e6 > 2" step="2">
+        Configure security for your jobber account
+        <small>Secure your account with a password!</small>
+      </v-stepper-step>
 
       <v-stepper-content step="2">
         <div>
@@ -189,12 +189,10 @@
         <v-btn text @click="e6 = 1">Back</v-btn>
       </v-stepper-content>
 
-      <v-stepper-step :complete="e6 > 3" step="3"
-        >Social media and resume setup
-        <small>
-          Upload your resume, setup your social and portfolio links</small
-        ></v-stepper-step
-      >
+      <v-stepper-step :complete="e6 > 3" step="3">
+        Social media and resume setup
+        <small>Upload your resume, setup your social and portfolio links</small>
+      </v-stepper-step>
 
       <v-stepper-content step="3">
         <div>
@@ -235,7 +233,7 @@
             </v-col>
             <v-col cols="12" sm="6">
               <v-file-input
-                accept=".pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document*"
+                accept=".pdf, .doc, .docx, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document*"
                 prepend-icon="mdi-file"
                 label="Resume *"
                 hint="Upload your resume,  supported format: pdf and doc"
@@ -256,15 +254,14 @@
                 src="https://thumbs.gfycat.com/QuaintLikelyFlyingfish-size_restricted.gif"
                 width="200"
                 height="auto"
-              /> </v-layout
-          ></v-row>
+              />
+            </v-layout>
+          </v-row>
           <v-row>
             <v-layout justify-center class="mb-5 mt-n5">
               <h3 class="mb-0 font-weight-light">
                 You are all set {{ userToCreate.firstName }}.
-                <h5 class="mb-0 font-weight-light">
-                  Welcome to jobber
-                </h5>
+                <h5 class="mb-0 font-weight-light">Welcome to jobber</h5>
               </h3>
             </v-layout>
           </v-row>
@@ -290,6 +287,7 @@ export default {
       e6: 1, // for the steppers
       currentUserEmail: "",
       currentProfilePicture: "",
+      currentUserName: "",
       profilePictureToUpload: null,
       userID: null,
       // User to be created
@@ -313,14 +311,16 @@ export default {
       },
     };
   },
-  // All functions of this component
-  mounted: function() {
+  mounted: function () {
     // Getting the current login user
     var user = firebase.auth().currentUser;
     this.currentUserEmail = user.email;
     this.currentProfilePicture = user.photoURL;
     this.userID = user.uid;
+    this.userToCreate.firstName = user.displayName;
   },
+  // All functions of this component
+
   methods: {
     onFileChange(event) {
       const file = event.target.files[0];
@@ -373,6 +373,7 @@ export default {
         .then((response) => {
           console.log("Added new user to backend successfully!");
           console.log(typeof response.data);
+          this.$router.push("/");
         })
         .catch((error) => {
           console.log(error);
