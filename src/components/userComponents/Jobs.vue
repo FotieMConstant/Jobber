@@ -160,25 +160,86 @@
                         </v-row>
 
                         <v-row>
-                          <div class="mt-3" v-if="job.offerStatus == true">
-                            <v-btn color="primary" depressed>Apply Now</v-btn>
-                          </div>
-                          <div class="mt-3" v-else>
-                            <v-btn color="primary" depressed disabled
-                              >Apply Now</v-btn
-                            >
-                          </div>
-                        </v-row>
-                        <v-row>
-                          <span
-                            v-if="job.offerStatus == false"
-                            class="caption mt-3"
-                            >This job offer is closed at the moment, please
-                            check back later</span
-                          >
-                          <span v-else class="caption mt-3"
-                            >You can apply for this job offer</span
-                          >
+                          <span v-if="isUserLoggedIn == true">
+                            <div class="mt-3" v-if="job.offerStatus == true">
+                              <v-dialog v-model="dialog" width="500">
+                                <template v-slot:activator="{ on, attrs }">
+                                  <v-btn
+                                    class="ml-n11"
+                                    v-bind="attrs"
+                                    v-on="on"
+                                    color="primary"
+                                    depressed
+                                    @click="applyToOffer(job.id)"
+                                    >Apply Now</v-btn
+                                  >
+                                  <div class="caption mt-3">
+                                    You can apply for this job offer
+                                  </div>
+                                </template>
+                                <v-card>
+                                  <v-card-title class="headline grey lighten-2">
+                                    Information
+                                  </v-card-title>
+                                  <v-avatar size="60" class="mt-3 mb-3">
+                                    <v-img
+                                      src="https://www.pngkit.com/png/full/776-7762350_download-transparent-check-mark-gif.png"
+                                    />
+                                  </v-avatar>
+                                  <v-card-text>
+                                    <h3>
+                                      Amazing, you just postulated to this offer
+                                    </h3>
+                                    Your jobber profile will now be submited to
+                                    the recruiter
+                                  </v-card-text>
+
+                                  <v-divider></v-divider>
+
+                                  <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn
+                                      color="primary"
+                                      text
+                                      @click="dialog = false"
+                                    >
+                                      Okay!
+                                    </v-btn>
+                                  </v-card-actions>
+                                </v-card>
+                              </v-dialog>
+                            </div>
+                            <div class="mt-3" v-else>
+                              <v-btn
+                                class="ml-n11"
+                                color="primary"
+                                depressed
+                                disabled
+                                >Apply Now</v-btn
+                              >
+                              <div class="caption mt-3">
+                                This job offer is closed at the moment, please
+                                check back later
+                              </div>
+                            </div>
+                          </span>
+                          <span v-else class="mt-6">
+                            <v-alert text dense type="warning" icon="mdi-alert">
+                              Please login to Apply to this job offer!
+                              <br />
+                            </v-alert>
+                            <router-link to="/jobseeker/login">
+                              <v-btn class="" small depressed color="primary"
+                                >Login</v-btn
+                              >
+                            </router-link>
+                            OR
+                            <router-link to="/jobseeker/signup">
+                              <v-btn class="" small depressed color="primary"
+                                >Signup!</v-btn
+                              >
+                            </router-link>
+                          </span>
                         </v-row>
                       </v-col>
                       <v-col cols="4">
@@ -298,6 +359,7 @@ export default {
   },
   data() {
     return {
+      isUserLoggedIn: false,
       jobs: null,
       dialog: false, // Dialog for more details of the company and offer
       showLoader: true,
@@ -344,12 +406,70 @@ export default {
         this.showLoader = false;
       }, 900);
     },
+    applyToOffer(jobOfferId) {
+      // Getting the current login user
+      const user = firebase.auth().currentUser;
+      let jobSeekerId = user.uid;
+
+      console.log("You are applying to a job offer with id: " + jobOfferId);
+      console.log("Your jobSeekerId: " + jobSeekerId);
+
+      // data object for offerseeker
+      const offerSeekerDataObject = {
+        id: {
+          jobSeekerId: jobSeekerId,
+          jobOfferId: jobOfferId,
+        },
+        companyReview: false,
+        seekerReview: true,
+        interviewDate: null,
+      };
+      // Variables for my request
+      const username = "admin";
+      const password = "dilan";
+
+      const token = Buffer.from(`${username}:${password}`, "utf8").toString(
+        "base64"
+      );
+
+      const url = `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/offerseeker/`;
+
+      // Posting the data to backend
+      this.axios
+        .post(url, offerSeekerDataObject, {
+          headers: {
+            Authorization: `Basic ${token}`,
+          },
+        })
+        .then((response) => {
+          this.userProfile = response.data;
+          console.log(response.data);
+          console.log(typeof response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => (this.showLoader = false));
+      // End of request
+    },
   },
   //   Called after the instance has just been mounted where el is replaced by the newly created vm.$el.
   mounted: function () {
     setTimeout(() => {
       this.showLoader = false;
     }, 5000);
+    // Getting the current login user
+    const user = firebase.auth().currentUser;
+
+    // Making sure we have a user before we use user's ID
+    if (user) {
+      let jobSeekerId = user.uid;
+      if (jobSeekerId != null && jobSeekerId != "") {
+        this.isUserLoggedIn = true;
+      }
+    }
+    console.log("Is user logged in? " + this.isUserLoggedIn);
+
     // Variables for my request
     const username = "admin";
     const password = "dilan";
@@ -357,10 +477,6 @@ export default {
     const token = Buffer.from(`${username}:${password}`, "utf8").toString(
       "base64"
     );
-
-    // Getting the current login user
-    const user = firebase.auth().currentUser;
-    this.photoUrl = user.photoURL;
 
     const url = `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/joboffer/`;
 

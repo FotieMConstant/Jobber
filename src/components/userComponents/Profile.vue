@@ -723,7 +723,7 @@
                         <i>
                           Started
                           <timeago :datetime="education.startDate" :auto-update="60"></timeago>-
-                          <span v-if="education.endDate == null">No Expiry date</span>
+                          <span v-if="education.endDate == null">Currently study here</span>
                           <span v-else>
                             <!-- Auto-update time every 60 seconds -->
                             End
