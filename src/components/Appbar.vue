@@ -12,6 +12,12 @@
       <v-spacer></v-spacer>
 
       <template v-if="!currentUser">
+        <router-link to="/jobs">
+          <v-btn tile color="success">
+            <v-icon left> mdi-briefcase </v-icon>
+            Jobs
+          </v-btn>
+        </router-link>
         <router-link to="/jobseeker/login">
           <v-btn text large class="color-white">Login</v-btn>
         </router-link>
@@ -23,7 +29,14 @@
 
       <template v-else>
         <router-link to="/jobseeker/profile">
-          <v-badge class="mr-5" small content="9+" :value="messages" color="red" overlap>
+          <v-badge
+            class="mr-5"
+            small
+            content="9+"
+            :value="messages"
+            color="red"
+            overlap
+          >
             <v-icon>mdi-bell</v-icon>
           </v-badge>
         </router-link>
@@ -42,7 +55,10 @@
     <template v-if="currentUser">
       <v-navigation-drawer v-model="drawer" absolute temporary>
         <v-list nav dense>
-          <v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4">
+          <v-list-item-group
+            v-model="group"
+            active-class="deep-purple--text text--accent-4"
+          >
             <v-list-item-avatar>
               <v-img :src="photoUrl"></v-img>
             </v-list-item-avatar>

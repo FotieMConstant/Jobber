@@ -4,11 +4,12 @@
     <v-container class="ma">
       <v-row dense>
         <v-card-title class="headline mb">My Job Applications</v-card-title>
-         <router-link to="/Jobs">
-        <v-btn class="ma-0" outlined x-small fab color="indigo">
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
-         </router-link>
+        <router-link to="/Jobs">
+          <v-btn tile color="primary">
+            <v-icon left> mdi-briefcase </v-icon>
+            Jobs
+          </v-btn>
+        </router-link>
         <v-col cols="12">
           <v-card>
             <!-- Laoder -->
