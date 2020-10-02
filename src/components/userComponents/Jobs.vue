@@ -62,7 +62,7 @@
                 <v-card :elevation="0" class="pa-2">
                   <v-avatar size="120">
                     <v-img
-                      src="https://dashboard.snapcraft.io/site_media/appmedia/2020/03/app_icon_512.png"
+                      src="https://urbanimpact.com/sites/default/files/2019-02/Papers-icon.png"
                     />
                   </v-avatar>
                 </v-card>
@@ -128,7 +128,7 @@
                           <v-card class="mt-n3">
                             <v-avatar size="100">
                               <v-img
-                                src="https://dashboard.snapcraft.io/site_media/appmedia/2020/03/app_icon_512.png"
+                                src="https://urbanimpact.com/sites/default/files/2019-02/Papers-icon.png"
                               />
                             </v-avatar>
                           </v-card>
@@ -270,7 +270,7 @@
                               <v-list-item-avatar tile size="80">
                                 <v-avatar size="100">
                                   <v-img
-                                    src="https://dashboard.snapcraft.io/site_media/appmedia/2020/03/app_icon_512.png"
+                                    src="https://urbanimpact.com/sites/default/files/2019-02/Papers-icon.png"
                                   />
                                 </v-avatar>
                               </v-list-item-avatar>
