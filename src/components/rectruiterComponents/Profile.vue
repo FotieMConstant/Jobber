@@ -44,9 +44,13 @@
                     </v-row>
                     <v-row>
                       <h3 class="subtitle-1 mt-3 text-left">
-                        <span
-                          class="caption"
-                        >Lorem ipsum dolor sit, amet consectetur adipisicing elit. Provident laudantium, nemo veritatis recusandae natus est culpa maiores atque nihil illum! Eligendi assumenda facere rerum aliquam illo, voluptatibus aliquid quam inventore!</span>
+                        <span class="caption"
+                          >Lorem ipsum dolor sit, amet consectetur adipisicing
+                          elit. Provident laudantium, nemo veritatis recusandae
+                          natus est culpa maiores atque nihil illum! Eligendi
+                          assumenda facere rerum aliquam illo, voluptatibus
+                          aliquid quam inventore!</span
+                        >
                       </h3>
                     </v-row>
                   </v-container>
@@ -73,7 +77,8 @@
                               outlined
                               color="primary"
                               rounded
-                            >Edit personal info</v-btn>
+                              >Edit personal info</v-btn
+                            >
                           </template>
                           <v-card>
                             <!-- Toolbar -->
@@ -84,7 +89,9 @@
                               <v-toolbar-title>Settings</v-toolbar-title>
                               <v-spacer></v-spacer>
                               <v-toolbar-items>
-                                <v-btn dark text @click="dialogEdit = false">Save</v-btn>
+                                <v-btn dark text @click="dialogEdit = false"
+                                  >Save</v-btn
+                                >
                               </v-toolbar-items>
                             </v-toolbar>
                             <!-- / Toolbar -->
@@ -104,7 +111,9 @@
                                   ></v-file-input>
                                   <v-avatar size="160" class="mt-4">
                                     <v-img
-                                      :src="require('../../assets/user_images/avatar-placeholder.png')"
+                                      :src="
+                                        require('../../assets/user_images/avatar-placeholder.png')
+                                      "
                                     />
                                   </v-avatar>
                                 </v-card>
@@ -150,15 +159,29 @@
                                     </v-row>
                                     <v-row>
                                       <h3 class="subtitle-1 mt-3">
-                                        <v-chip class="ma-1" small color="teal" text-color="white">
+                                        <v-chip
+                                          class="ma-1"
+                                          small
+                                          color="teal"
+                                          text-color="white"
+                                        >
                                           <v-avatar left>
-                                            <v-icon small>mdi-checkbox-marked-circle</v-icon>
-                                          </v-avatar>Web developer
+                                            <v-icon small
+                                              >mdi-checkbox-marked-circle</v-icon
+                                            > </v-avatar
+                                          >Web developer
                                         </v-chip>
-                                        <v-chip class="ma-1" small color="teal" text-color="white">
+                                        <v-chip
+                                          class="ma-1"
+                                          small
+                                          color="teal"
+                                          text-color="white"
+                                        >
                                           <v-avatar left>
-                                            <v-icon small>mdi-checkbox-marked-circle</v-icon>
-                                          </v-avatar>Front-end developer
+                                            <v-icon small
+                                              >mdi-checkbox-marked-circle</v-icon
+                                            > </v-avatar
+                                          >Front-end developer
                                         </v-chip>
                                       </h3>
                                     </v-row>
@@ -173,7 +196,9 @@
                                 <v-card :elevation="0" class="pa-2">
                                   <v-avatar class="mt-4">
                                     <v-img
-                                      :src="require('../../assets/user_images/experience-default.png')"
+                                      :src="
+                                        require('../../assets/user_images/experience-default.png')
+                                      "
                                     />
                                   </v-avatar>
                                 </v-card>
@@ -209,7 +234,9 @@
                                 <v-card :elevation="0" class="pa-2">
                                   <v-avatar class="mt-4">
                                     <v-img
-                                      :src="require('../../assets/user_images/experience-default.png')"
+                                      :src="
+                                        require('../../assets/user_images/experience-default.png')
+                                      "
                                     />
                                   </v-avatar>
                                 </v-card>
@@ -237,7 +264,10 @@
                                           label="Twitter @username *"
                                         ></v-text-field>
 
-                                        <v-text-field class="title text-sm-left" label="Website *"></v-text-field>
+                                        <v-text-field
+                                          class="title text-sm-left"
+                                          label="Website *"
+                                        ></v-text-field>
 
                                         <v-text-field
                                           class="title text-sm-left ml-4"
@@ -289,7 +319,13 @@
               </p>
             </v-row>
             <v-row class="ml-5 mr-5" no-gutters>
-              <v-progress-linear value="10" color="success" buffer-value="100" height="25" rounded>
+              <v-progress-linear
+                value="10"
+                color="success"
+                buffer-value="100"
+                height="25"
+                rounded
+              >
                 <strong class="caption">10 %</strong>
               </v-progress-linear>
             </v-row>
@@ -336,28 +372,56 @@
                         <v-form>
                           <v-row>
                             <v-col cols="12" sm="4" md="6">
-                              <v-text-field label="Title *" autofocus required></v-text-field>
+                              <v-text-field
+                                label="Title *"
+                                autofocus
+                                required
+                              ></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="4" md="6">
-                              <v-text-field label="Company *" required></v-text-field>
+                              <v-text-field
+                                label="Company *"
+                                required
+                              ></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="4" md="6">
-                              <v-text-field label="Tel *" required></v-text-field>
+                              <v-text-field
+                                label="Tel *"
+                                required
+                              ></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="4" md="6">
-                              <v-text-field label="Email *" required></v-text-field>
+                              <v-text-field
+                                label="Email *"
+                                required
+                              ></v-text-field>
                             </v-col>
                             <v-col cols="12">
-                              <v-text-field label="Location *" required></v-text-field>
+                              <v-text-field
+                                label="Location *"
+                                required
+                              ></v-text-field>
                             </v-col>
                             <v-col cols="12">
-                              <v-textarea label="Description *" type="text" required></v-textarea>
+                              <v-textarea
+                                label="Description *"
+                                type="text"
+                                required
+                              ></v-textarea>
                             </v-col>
                             <v-col cols="12" sm="6">
-                              <v-text-field type="date" label="From *" required></v-text-field>
+                              <v-text-field
+                                type="date"
+                                label="From *"
+                                required
+                              ></v-text-field>
                             </v-col>
                             <v-col cols="12" sm="6">
-                              <v-text-field type="date" label="To *" required></v-text-field>
+                              <v-text-field
+                                type="date"
+                                label="To *"
+                                required
+                              ></v-text-field>
                             </v-col>
                             <v-col>
                               <v-checkbox
@@ -372,8 +436,12 @@
                     </v-card-text>
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn color="blue darken-1" text @click="dialog = false">Close</v-btn>
-                      <v-btn color="blue darken-1" text @click="dialog = false">Save</v-btn>
+                      <v-btn color="blue darken-1" text @click="dialog = false"
+                        >Close</v-btn
+                      >
+                      <v-btn color="blue darken-1" text @click="dialog = false"
+                        >Save</v-btn
+                      >
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
@@ -401,7 +469,9 @@
                 <v-card :elevation="0" class="pa-2">
                   <v-container class="lighten-5">
                     <v-row>
-                      <h4 class="text-sm-left">Assistant intern - Software engineer</h4>
+                      <h4 class="text-sm-left">
+                        Assistant intern - Software engineer
+                      </h4>
                     </v-row>
                     <v-row class="mt-2">
                       <span class="subtitle-2 light">
@@ -410,9 +480,9 @@
                     </v-row>
                     <v-row class="text-sm-left mt-2">
                       <span>
-                        You will be requested to work with a team of professional developers on technologies like
-                        HTML/CSS and javascript.
-                        - Knowing Java is also a plus...
+                        You will be requested to work with a team of
+                        professional developers on technologies like HTML/CSS
+                        and javascript. - Knowing Java is also a plus...
                       </span>
                     </v-row>
                   </v-container>
@@ -429,7 +499,7 @@
                   </v-container>
                 </v-card>
               </v-col>
-              <v-divider style="z-index: 4;"></v-divider>
+              <v-divider style="z-index: 4"></v-divider>
             </v-row>
             <!-- / Content -->
           </v-card>
@@ -442,6 +512,7 @@
 
 <script>
 import Skeletonjobsloader from "../userComponents/Skeletonjobsloader.vue";
+import firebase from "firebase";
 
 export default {
   components: {
@@ -451,9 +522,6 @@ export default {
     return {
       showLoader: true,
       dialog: false, // data for the dialog box of Experience
-      dialogEdu: false, // data for the dialog box of Education
-      dialogCertif: false, // data for the dialog box of Certification
-      dialogLang: false, // data for the dialog box of Languages
       checkbox: true, //For the checkbox of currently work here
       dialogEdit: false,
       notifications: false,
@@ -472,6 +540,37 @@ export default {
     setTimeout(() => {
       this.showLoader = false;
     }, 300);
+
+    // Variables for my request
+    const username = "admin";
+    const password = "dilan";
+
+    const token = Buffer.from(`${username}:${password}`, "utf8").toString(
+      "base64"
+    );
+
+    // Getting the current login user
+    const user = firebase.auth().currentUser;
+    this.photoUrl = user.photoURL;
+
+    const url = `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/recruiter/${user.uid}`;
+
+    this.axios
+      .get(url, {
+        headers: {
+          Authorization: `Basic ${token}`,
+        },
+      })
+      .then((response) => {
+        this.userProfile = response.data;
+        console.log(response.data);
+        console.log(typeof response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => (this.showLoader = false));
+    // End of request
   },
 };
 </script>

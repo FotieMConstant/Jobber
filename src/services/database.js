@@ -14,7 +14,7 @@ const firebaseConfig = {
 
 const database = firebase.initializeApp(firebaseConfig);
 
-// SingUp function
+// SingUp function for job seeker
 database.signUp = async (email, password) => {
   try {
     await firebase.auth().createUserWithEmailAndPassword(email, password);
@@ -25,7 +25,7 @@ database.signUp = async (email, password) => {
   }
 };
 
-// SingIn function
+// SingIn function for job seeker
 
 database.signIn = async (email, password) => {
   try {
@@ -43,6 +43,7 @@ database.signOut = async () => {
   try {
     await firebase.auth().signOut();
     store.commit("setCurrentUser", null); // Update the state in the store
+    store.commit("setCurrentUserRole", null);
     return true;
   } catch (error) {
     return error;
@@ -63,7 +64,7 @@ database.signOut = async () => {
 //   }
 // };
 
-// Singup with google
+// Singup with google for job seeker
 database.googleSignUp = async () => {
   try {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -74,4 +75,31 @@ database.googleSignUp = async () => {
     return error;
   }
 };
+
+// SingIn function for recruiter
+
+database.signInRecruiter = async (email, password) => {
+  try {
+    await firebase.auth().signInWithEmailAndPassword(email, password);
+    store.commit("setCurrentUser", firebase.auth().currentUser); // Update the state in the store
+    store.commit("setCurrentUserRole", "recruiter");
+    return true;
+  } catch (error) {
+    return error;
+  }
+};
+
+// Singup with google for recruiter
+database.googleSignUpRecruiter = async () => {
+  try {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    await firebase.auth().signInWithPopup(provider);
+    store.commit("setCurrentUser", firebase.auth().currentUser); // Update the state in the store
+    store.commit("setCurrentUserRole", "recruiter");
+    return true;
+  } catch (error) {
+    return error;
+  }
+};
+
 export default database;

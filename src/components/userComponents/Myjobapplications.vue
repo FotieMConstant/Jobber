@@ -24,26 +24,97 @@
               <v-row dense v-for="job in jobs" :key="job" class="mb-5">
                 <v-col cols="12">
                   <v-card :elevation="0">
+                    <br />
                     <!-- Content -->
                     <v-row no-gutters>
                       <v-col cols="2">
                         <v-card :elevation="0" class="pa-2">
                           <v-avatar size="120">
                             <v-img
-                              src="https://dashboard.snapcraft.io/site_media/appmedia/2020/03/app_icon_512.png"
+                              src="https://urbanimpact.com/sites/default/files/2019-02/Papers-icon.png"
                             />
                           </v-avatar>
                         </v-card>
                       </v-col>
-
-                      <v-col cols="2">
+                      <v-col cols="8">
                         <v-card :elevation="0" class="pa-2">
-                          <v-container class="text-right font-weight-light">
+                          <v-container class="lighten-5">
                             <v-row>
                               <h2 class="title text-sm-left">
                                 {{ job.offerName }}
                               </h2>
                             </v-row>
+                            <v-row>
+                              <h3 class="subtitle-1 mt-3">
+                                {{ job.description }}
+                              </h3>
+                            </v-row>
+                            <!-- Progress of job seeker's application -->
+                            <v-row>
+                              <span
+                                v-for="offerSeekerStatus in job.offerseekers"
+                                :key="offerSeekerStatus"
+                              >
+                                <!-- Checking to make sure the offerSeeker id is the same as the current logged in job seeker -->
+                                <span
+                                  v-if="
+                                    offerSeekerStatus.id.jobSeekerId ==
+                                    currentUserUid
+                                  "
+                                >
+                                  <!-- checking if the company has reviewed the user's profile -->
+                                  <div
+                                    v-if="
+                                      offerSeekerStatus.companyReview == false
+                                    "
+                                  >
+                                    <div class="caption ml-2">
+                                      <v-badge
+                                        color="red"
+                                        overlap
+                                        dot
+                                        class="mr-2 mb-2"
+                                      ></v-badge
+                                      ><span>In review</span>
+                                    </div>
+                                  </div>
+                                  <div v-else>
+                                    <div class="caption ml-2">
+                                      <v-badge
+                                        color="primary"
+                                        overlap
+                                        dot
+                                        class="mr-2 mb-2"
+                                      ></v-badge
+                                      ><span>To interview</span>
+                                    </div>
+                                  </div>
+                                </span>
+                              </span>
+                            </v-row>
+                            <!-- /Progress of job seeker's application -->
+                            <v-row class="ml-n4 mt-2">
+                              <v-chip
+                                v-for="categorie in job.categories"
+                                :key="categorie"
+                                class="ma-1"
+                                small
+                                color="success"
+                                text-color="white"
+                              >
+                                <v-avatar left>
+                                  <v-icon small
+                                    >mdi-checkbox-marked-circle</v-icon
+                                  > </v-avatar
+                                >{{ categorie.name }}
+                              </v-chip>
+                            </v-row>
+                          </v-container>
+                        </v-card>
+                      </v-col>
+                      <v-col cols="2">
+                        <v-card :elevation="0" class="pa-2">
+                          <v-container class="text-right font-weight-light">
                             <v-row>
                               <span class="caption mb-4"
                                 >{{ job.town }}, {{ job.country }}.</span
@@ -61,6 +132,7 @@
                               <span class="caption mb-1">
                                 <i>
                                   <!-- Auto-update time every 60 seconds -->
+                                  Posted
                                   <timeago
                                     :datetime="job.postedDate"
                                     :auto-update="60"
@@ -70,9 +142,9 @@
                             </v-row>
                             <v-row>
                               <v-chip
-                                v-if="job.offerStatus == true"
                                 class="ma-1"
                                 small
+                                v-if="job.offerStatus == true"
                               >
                                 <v-icon left>mdi-check</v-icon>Open
                               </v-chip>
@@ -90,8 +162,8 @@
                         </v-card>
                       </v-col>
                     </v-row>
-                    <!-- / Content -->
                     <v-divider></v-divider>
+                    <!-- / Content -->
                   </v-card>
                 </v-col>
               </v-row>
@@ -140,14 +212,12 @@ export default {
   data() {
     return {
       showLoader: true,
-      jobs: null,
+      currentUserUid: null,
+      jobs: [],
     };
   },
 
   mounted: function () {
-    setTimeout(() => {
-      this.showLoader = false;
-    }, 5000);
     // Variables for my request
     const username = "admin";
     const password = "dilan";
@@ -155,30 +225,15 @@ export default {
     // Getting the current login user
     const user = firebase.auth().currentUser;
     let jobSeekerId = user.uid;
+    this.currentUserUid = user.uid; // setting to display the current user's offerseeker status
 
     const token = Buffer.from(`${username}:${password}`, "utf8").toString(
       "base64"
     );
 
-    // this.axios
-    //   .get(url, {
-    //     headers: {
-    //       Authorization: `Basic ${token}`,
-    //     },
-    //   })
-    //   .then((response) => {
-    //     this.jobs = response.data;
-    //     console.log(response.data);
-    //     console.log(typeof response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   })
-    //   .finally(() => (this.showLoader = false));
-
     const sendGetRequest = async () => {
       try {
-        const resp = await this.axios.get(
+        let resp = await this.axios.get(
           `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/offerseeker/jobseeker/${jobSeekerId}`,
           {
             headers: {
@@ -187,8 +242,27 @@ export default {
           }
         );
         console.log("Data from the Async =>" + JSON.stringify(resp.data));
-        this.jobs = resp.data;
-        this.showLoader = false; // disabling the laoder when the data has been returned by the data
+        resp = resp.data;
+        // mapping through to get the job offer id of returned data
+        let ids = resp.map((item) => {
+          return item.id.jobOfferId;
+        });
+
+        ids.forEach(async (id) => {
+          // Second axios call to fetch job offer
+          let response = await this.axios.get(
+            `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/joboffer/${id}`,
+            {
+              headers: {
+                Authorization: `Basic ${token}`,
+              },
+            }
+          );
+
+          console.log("Data from the Async =>" + JSON.stringify(response.data));
+          this.jobs.push(response.data);
+          this.showLoader = false; // disabling the laoder when the data has been returned by the data
+        });
       } catch (err) {
         // Handle Error Here
         console.error("There was an error =>" + err);
@@ -197,8 +271,6 @@ export default {
     sendGetRequest();
 
     // End of request
-
-    //  Fetch to get the actual job offer
   },
 };
 </script>

@@ -43,12 +43,20 @@
         <a @click="signOut">
           <v-btn text large class="color-white">sign-out</v-btn>
         </a>
-
-        <router-link to="/jobseeker/profile">
-          <v-avatar>
-            <img :src="photoUrl" alt="User" />
-          </v-avatar>
-        </router-link>
+        <span v-if="currentUserRole == 'recruiter'">
+          <router-link to="/recruiter/profile">
+            <v-avatar>
+              <img :src="photoUrl" alt="User" />
+            </v-avatar>
+          </router-link>
+        </span>
+        <span v-else>
+          <router-link to="/jobseeker/profile">
+            <v-avatar>
+              <img :src="photoUrl" alt="User" />
+            </v-avatar>
+          </router-link>
+        </span>
       </template>
     </v-app-bar>
 
@@ -100,6 +108,10 @@ export default {
   computed: {
     currentUser() {
       return this.$store.state.currentUser;
+    },
+
+    currentUserRole() {
+      return this.$store.state.currentUserRole;
     },
   },
 

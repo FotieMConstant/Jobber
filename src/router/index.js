@@ -9,6 +9,9 @@ import Videocall from "../views/Videocall.vue";
 import Setupprofile from "../views/Setupprofile.vue";
 import Recruiterprofile from "../views/RecruiterViews/Recruiterprofile.vue";
 import store from "@/store/store";
+import RecruiterLogin from "../views/RecruiterViews/Login.vue";
+import RecruiterSingup from "../views/RecruiterViews/Signup.vue";
+
 
 Vue.use(VueRouter);
 
@@ -80,6 +83,22 @@ const routes = [
     component: Recruiterprofile,
     meta: {
       title: "Admin recruiter",
+    },
+  },
+  {
+    path: "/recruiter/login",
+    name: "RecruiterLogin",
+    component: RecruiterLogin,
+    meta: {
+      title: "Recruiter login",
+    },
+  },
+  {
+    path: "/recruiter/signup",
+    name: "RecruiterSingup",
+    component: RecruiterSingup,
+    meta: {
+      title: "Recruiter Singup",
     },
   },
   {

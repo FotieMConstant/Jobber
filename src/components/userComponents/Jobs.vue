@@ -316,6 +316,7 @@
                       <span class="caption mb-1">
                         <i>
                           <!-- Auto-update time every 60 seconds -->
+                          Posted
                           <timeago
                             :datetime="job.postedDate"
                             :auto-update="60"
