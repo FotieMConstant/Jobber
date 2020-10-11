@@ -59,10 +59,11 @@ const routes = [
     },
   },
   {
-    path: "/Videocall",
+    path: "/recruiter/videocall/outgoing",
     name: "Videocall",
     component: Videocall,
     meta: {
+      auth: true,
       title: "Video call",
     },
   },
@@ -82,6 +83,7 @@ const routes = [
     name: "Recruiterprofile",
     component: Recruiterprofile,
     meta: {
+      // auth: true,
       title: "Admin recruiter",
     },
   },

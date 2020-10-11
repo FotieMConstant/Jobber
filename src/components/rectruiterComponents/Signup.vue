@@ -126,7 +126,7 @@ export default {
 
     // Signup with google
     async googleSignUp() {
-      let result = await database.googleSignUp();
+      let result = await database.googleSignUpRecruiter();
 
       // Check if the result is good or bad
       if (result.message) {

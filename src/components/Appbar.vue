@@ -18,6 +18,9 @@
             Jobs
           </v-btn>
         </router-link>
+        <router-link to="/recruiter/login">
+          <v-btn text large class="color-white ml-2 mr-2">Recruiter </v-btn>
+        </router-link>
         <router-link to="/jobseeker/login">
           <v-btn text large class="color-white">Login</v-btn>
         </router-link>
@@ -44,6 +47,12 @@
           <v-btn text large class="color-white">sign-out</v-btn>
         </a>
         <span v-if="currentUserRole == 'recruiter'">
+           <router-link to="/recruiter/videocall/outgoing">
+          <v-btn tile color="success" class="mr-3">
+            <v-icon left> mdi-video </v-icon>
+            Interview
+          </v-btn>
+        </router-link>
           <router-link to="/recruiter/profile">
             <v-avatar>
               <img :src="photoUrl" alt="User" />

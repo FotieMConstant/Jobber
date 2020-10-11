@@ -13,20 +13,29 @@
 
 <script>
 import { JitsiMeet } from "@mycure/vue-jitsi-meet";
+import firebase from "firebase";
+
+
+
 export default {
   components: {
     VueJitsiMeet: JitsiMeet,
   },
+  data: () => ({
+    recruiterEmail: null,
+    recruiterName: null,
+    randomRoomName: null,
+  }),
   computed: {
     jitsiOptions() {
       return {
-        roomName: "DevTestRoom",
+        roomName: this.randomRoomName,
         width: 1365,
-        height: 593,
+        height: 592,
         noSSL: false,
         userInfo: {
-          email: "user@email.com",
-          displayName: "Fotie",
+          email: this.recruiterEmail,
+          displayName: this.recruiterName,
         },
         configOverwrite: {
           enableNoisyMicDetection: false,
@@ -44,7 +53,27 @@ export default {
     onIFrameLoad() {
       // do stuff
     },
+
+// function to generate random string for the meeting link
+    randomPeerCallId(length) {
+   var result           = '';
+   var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+   var charactersLength = characters.length;
+   for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+   }
+   return result;
+}
   },
+
+ mounted: function () {
+       // Getting the current login user
+    const user = firebase.auth().currentUser;
+    this.recruiterName = user.displayName; //setting recruiters name
+    this.randomRoomName = this.randomPeerCallId(10); // settign the room id with randomly generated strings
+    console.log("Interview room id =>"+this.randomRoomName)
+ },
+
 };
 </script>
 

@@ -28,28 +28,24 @@
                 <v-card :elevation="0" class="pa-2">
                   <v-container class="lighten-5">
                     <v-row>
-                      <h2 class="title text-sm-left">Longla Dilan</h2>
+                      <h2 class="title text-sm-left">{{userProfile.firstName}} {{userProfile.lastName}}</h2>
                     </v-row>
                     <v-row class="mt-2">
                       <v-icon class="ml-n1 mr-2">mdi-home-circle</v-icon>
-                      <span>MTN Cameroon</span>
+                      <span>Haibasoft</span>
                     </v-row>
                     <v-row class="mt-2">
                       <v-icon class="ml-n1 mr-2">mdi-email</v-icon>
-                      <span>mtncameroon@gmail.com</span>
+                      <span>{{userProfile.email}}</span>
                     </v-row>
                     <v-row class="mt-2">
                       <v-icon class="ml-n1 mr-2">mdi-phone</v-icon>
-                      <span>+237652060541</span>
+                      <span>+(237){{userProfile.tel}}</span>
                     </v-row>
                     <v-row>
                       <h3 class="subtitle-1 mt-3 text-left">
                         <span class="caption"
-                          >Lorem ipsum dolor sit, amet consectetur adipisicing
-                          elit. Provident laudantium, nemo veritatis recusandae
-                          natus est culpa maiores atque nihil illum! Eligendi
-                          assumenda facere rerum aliquam illo, voluptatibus
-                          aliquid quam inventore!</span
+                          >Software Engineering services company!</span
                         >
                       </h3>
                     </v-row>
@@ -453,7 +449,7 @@
             <Skeletonjobsloader v-if="showLoader" />
             <!-- /Loader -->
             <!-- Content -->
-            <v-row v-for="joboffer in 2" :key="joboffer" no-gutters v-else>
+            <v-row v-for="joboffer in userProfile.joboffers" :key="joboffer" no-gutters v-else>
               <v-col cols="2">
                 <v-card :elevation="0" class="pa-2">
                   <v-avatar class="mt-4">
@@ -470,7 +466,7 @@
                   <v-container class="lighten-5">
                     <v-row>
                       <h4 class="text-sm-left">
-                        Assistant intern - Software engineer
+                        {{joboffer.offerName}}
                       </h4>
                     </v-row>
                     <v-row class="mt-2">
@@ -480,10 +476,72 @@
                     </v-row>
                     <v-row class="text-sm-left mt-2">
                       <span>
-                        You will be requested to work with a team of
-                        professional developers on technologies like HTML/CSS
-                        and javascript. - Knowing Java is also a plus...
+                        {{joboffer.description}}
                       </span>
+                    </v-row>
+                    <v-row class="text-sm-left mt-2">
+                      <v-chip
+                        color="yellow"
+                      >
+                        <span v-if="joboffer.offerseekers.length == 1">
+                          {{joboffer.offerseekers.length}} Application recieved!
+                        </span>
+                         <span v-else-if="joboffer.offerseekers.length == 0">No Application received!</span>
+                        <span v-else> {{joboffer.offerseekers.length}} Applications recieved!</span>
+                      </v-chip>
+                      <v-dialog
+                        v-model="dialogViewDetails[joboffer.id]"
+                        persistent
+                        max-width="600px"
+                      >
+                      <template v-slot:activator="{ on, attrs }">
+                      <v-btn rounded color="primary" fab x-small dark class="ml-2"  v-bind="attrs" v-on="on"><v-icon>mdi-file-document</v-icon> </v-btn>
+                      </template>
+                        <v-card>
+                          <v-card-title>
+                            <span class="headline">Applications recieved for {{joboffer.offerName}}</span>
+                          </v-card-title>
+                          <v-card-text>
+                            <v-container>
+                              <v-row>
+                               <!-- Content -->
+                               <v-list three-line>
+                                 <span v-for="user in joboffer.offerseekers.length" :key="user">
+                                
+                                
+                                  <v-divider></v-divider>
+    
+                                  <v-list-item>
+                                    <v-list-item-avatar>
+                                      <v-img src="https://cdn.vuetifyjs.com/images/lists/1.jpg"></v-img>
+                                    </v-list-item-avatar>
+                          
+                                    <v-list-item-content>
+                                      <v-list-item-title class="mt-n2 text-left">Fotie M. Contant</v-list-item-title>
+                                      <v-list-item-subtitle class="mt-n5 text-left">Yaounde Cameroon</v-list-item-subtitle>
+                                    </v-list-item-content>
+                                  </v-list-item>
+                                </span>
+                              </v-list>
+                               
+                               <!-- / Content -->
+                              </v-row>
+                            </v-container>
+                            <small>Here are all the job seekers who applied for the {{joboffer.offerName}} job offer</small>
+                          </v-card-text>
+                          <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn
+                              color="blue darken-1"
+                              text
+                              @click="dialogViewDetails[joboffer.id] = false"
+                            >
+                              Close
+                            </v-btn>
+                            
+                          </v-card-actions>
+                        </v-card>
+                      </v-dialog>
                     </v-row>
                   </v-container>
                 </v-card>
@@ -499,7 +557,6 @@
                   </v-container>
                 </v-card>
               </v-col>
-              <v-divider style="z-index: 4"></v-divider>
             </v-row>
             <!-- / Content -->
           </v-card>
@@ -520,7 +577,9 @@ export default {
   },
   data() {
     return {
+      userProfile : null, // to store recruiter's profile data
       showLoader: true,
+      dialogViewDetails: {}, // for the modal of view applicants
       dialog: false, // data for the dialog box of Experience
       checkbox: true, //For the checkbox of currently work here
       dialogEdit: false,
@@ -553,7 +612,7 @@ export default {
     const user = firebase.auth().currentUser;
     this.photoUrl = user.photoURL;
 
-    const url = `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/recruiter/${user.uid}`;
+    const url = `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/recruiter/4s518`;
 
     this.axios
       .get(url, {

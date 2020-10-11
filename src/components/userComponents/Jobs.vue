@@ -162,7 +162,7 @@
                         <v-row>
                           <span v-if="isUserLoggedIn == true">
                             <div class="mt-3" v-if="job.offerStatus == true">
-                              <v-dialog v-model="dialog" width="500">
+                              <v-dialog v-model="dialogApplyClose" width="500">
                                 <template v-slot:activator="{ on, attrs }">
                                   <v-btn
                                     class="ml-n11"
@@ -201,7 +201,7 @@
                                     <v-btn
                                       color="primary"
                                       text
-                                      @click="dialog = false"
+                                      @click="dialogApplyClose = false"
                                     >
                                       Okay!
                                     </v-btn>
@@ -362,7 +362,8 @@ export default {
     return {
       isUserLoggedIn: false,
       jobs: null,
-      dialog: false, // Dialog for more details of the company and offer
+      dialog: {}, // Dialog for more details of the company and offer
+      dialogApplyClose: false, // to apply and close job offer
       showLoader: true,
       loading: false,
       items: [],

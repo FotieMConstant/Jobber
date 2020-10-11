@@ -102,4 +102,15 @@ database.googleSignUpRecruiter = async () => {
   }
 };
 
+// SingUp function for recruiter
+database.signUp = async (email, password) => {
+  try {
+    await firebase.auth().createUserWithEmailAndPassword(email, password);
+    store.commit("setCurrentUser", firebase.auth().currentUser); // Update the state in the store
+    return true;
+  } catch (error) {
+    return error;
+  }
+};
+
 export default database;
