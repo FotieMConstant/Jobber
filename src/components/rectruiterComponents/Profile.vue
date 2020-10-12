@@ -369,46 +369,17 @@
                           <v-row>
                             <v-col cols="12" sm="4" md="6">
                               <v-text-field
-                                label="Title *"
+                                v-model="offer.offerName"
+                                label="Offer name *"
                                 autofocus
                                 required
                               ></v-text-field>
-                            </v-col>
-                            <v-col cols="12" sm="4" md="6">
-                              <v-text-field
-                                label="Company *"
-                                required
-                              ></v-text-field>
-                            </v-col>
-                            <v-col cols="12" sm="4" md="6">
-                              <v-text-field
-                                label="Tel *"
-                                required
-                              ></v-text-field>
-                            </v-col>
-                            <v-col cols="12" sm="4" md="6">
-                              <v-text-field
-                                label="Email *"
-                                required
-                              ></v-text-field>
-                            </v-col>
-                            <v-col cols="12">
-                              <v-text-field
-                                label="Location *"
-                                required
-                              ></v-text-field>
-                            </v-col>
-                            <v-col cols="12">
-                              <v-textarea
-                                label="Description *"
-                                type="text"
-                                required
-                              ></v-textarea>
                             </v-col>
                             <v-col cols="12" sm="6">
                               <v-text-field
                                 type="date"
                                 label="From *"
+                                v-model="offer.startDate"
                                 required
                               ></v-text-field>
                             </v-col>
@@ -416,14 +387,64 @@
                               <v-text-field
                                 type="date"
                                 label="To *"
+                                v-model="offer.endDate"
                                 required
                               ></v-text-field>
                             </v-col>
-                            <v-col>
+                            
+                            <v-col cols="12" sm="4" md="6">
+                              <v-text-field
+                                label="Salary *"
+                                required
+                                v-model="offer.salary"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="12" sm="4" md="6">
+                              <v-text-field
+                                label="Country *"
+                                required
+                                v-model="offer.country"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="12" sm="4" md="6">
+                              <v-text-field
+                                label="Town *"
+                                required
+                                v-model="offer.town"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="12" sm="4" md="6">
+                              <v-text-field
+                                label="street *"
+                                required
+                                v-model="offer.street"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="12" sm="4" md="6">
                               <v-checkbox
-                                v-model="checkbox"
-                                :label="`I currently work here: ${checkbox.toString()}`"
+                                v-model="offer.checkbox"
+                                :label="`Status of offer (Open or close this offer): ${checkbox.toString()}`"
                               ></v-checkbox>
+                            </v-col>
+                            
+                            <v-col cols="12" sm="6">
+                              <v-text-field
+                                type="text"
+                                label="Job type *"
+                                required
+                                v-model="offer.type"
+                              ></v-text-field>
+                            </v-col>
+                            <v-col cols="12">
+                             <v-textarea
+                                label="Description *"
+                                v-model="offer.description"
+                                type="text"
+                                required
+                              ></v-textarea>
+                            </v-col>
+                            <v-col>
+                              <span>The job offer will be posted on the platform</span>
                             </v-col>
                           </v-row>
                         </v-form>
@@ -435,7 +456,7 @@
                       <v-btn color="blue darken-1" text @click="dialog = false"
                         >Close</v-btn
                       >
-                      <v-btn color="blue darken-1" text @click="dialog = false"
+                      <v-btn color="blue darken-1" text @click="createOffer"
                         >Save</v-btn
                       >
                     </v-card-actions>
@@ -570,6 +591,8 @@
 <script>
 import Skeletonjobsloader from "../userComponents/Skeletonjobsloader.vue";
 import firebase from "firebase";
+import axios from "axios";
+
 
 export default {
   components: {
@@ -581,11 +604,27 @@ export default {
       showLoader: true,
       dialogViewDetails: {}, // for the modal of view applicants
       dialog: false, // data for the dialog box of Experience
-      checkbox: true, //For the checkbox of currently work here
+      checkbox: true, // for the job offer status
       dialogEdit: false,
       notifications: false,
       sound: true,
       widgets: false,
+      offer: {
+        // offer data
+        recruiter: {"id": "4s518"},
+        offerName: "",
+        startDate: "",
+        endDate: "",
+        description: "",
+        salary: "",
+        offerStatus: "",
+        type: "",
+        country: "",
+        town: "",
+        street: "",
+        checkbox: true, // for the job offer status
+
+      },
       rules: [
         (value) =>
           !value ||
@@ -631,5 +670,76 @@ export default {
       .finally(() => (this.showLoader = false));
     // End of request
   },
+  methods : {
+     //Generate ID function for what will be sent to the backend
+    generateUniqueId: function () {
+      var text = "";
+      var possible = "0123456789";
+
+      for (var i = 0; i < 5; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+      console.log(text);
+      return text;
+    },
+
+     // function to save job offer to the backend
+    createOffer: function () {
+      this.dialog = false // data for the dialog box of Certification
+      // Getting the current login user
+      // var user = firebase.auth().currentUser;
+
+      // Variables for my request
+      const username = "admin";
+      const password = "dilan";
+
+      // Data to be sent to the endpoint
+      const offerDataObject = {
+        id: this.generateUniqueId(),
+        recruiter: {"id": "4s518"},
+        offerName: this.offer.offerName,
+        startDate: this.offer.startDate,
+        endDate: this.offer.endDate,
+        postedDate: "2020-10-12",
+        description: this.offer.description,
+        salary: this.offer.salary,
+        skill: null,
+        offerStatus: this.offer.checkbox,
+        type: this.offer.type,
+        longitude: null,
+        latitude: null,
+        code: "SSDF",
+        country: this.offer.country,
+        town: this.offer.town,
+        street: this.offer.street,
+        categories: [],
+        offerseekers: []
+        
+      };
+      console.log(offerDataObject);
+      const token = Buffer.from(`${username}:${password}`, "utf8").toString(
+        "base64"
+      );
+
+      const url = `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/joboffer/`;
+      console.log(url);
+      axios
+        .post(url, offerDataObject, {
+          headers: {
+            Authorization: `Basic ${token}`,
+          },
+        })
+        .then((response) => {
+          console.log("Successfully sent job offer to backend");
+          console.log(typeof response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => (this.showLoader = false));
+      // End of request
+      this.$mount(); // refresh the rout to fetch for chenages
+    },
+    // End of job offer function
+  }
 };
 </script>
