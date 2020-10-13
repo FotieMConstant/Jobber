@@ -25,11 +25,12 @@ export default {
     recruiterEmail: null,
     recruiterName: null,
     randomRoomName: null,
+    uidForMeeting: null,
   }),
   computed: {
     jitsiOptions() {
       return {
-        roomName: this.randomRoomName,
+        roomName: this.uidForMeeting,
         width: 1365,
         height: 592,
         noSSL: false,
@@ -69,6 +70,7 @@ export default {
  mounted: function () {
        // Getting the current login user
     const user = firebase.auth().currentUser;
+    this.uidForMeeting = user.uid;
     this.recruiterName = user.displayName; //setting recruiters name
     this.randomRoomName = this.randomPeerCallId(10); // settign the room id with randomly generated strings
     console.log("Interview room id =>"+this.randomRoomName)
