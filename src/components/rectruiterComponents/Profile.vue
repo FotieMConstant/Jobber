@@ -600,6 +600,7 @@ export default {
   },
   data() {
     return {
+      currentUserId: null, //Current user's UID from firebase
       userProfile : null, // to store recruiter's profile data
       showLoader: true,
       dialogViewDetails: {}, // for the modal of view applicants
@@ -611,7 +612,7 @@ export default {
       widgets: false,
       offer: {
         // offer data
-        recruiter: {"id": "4s518"},
+        recruiter: {"id": this.currentUserId},
         offerName: "",
         startDate: "",
         endDate: "",
@@ -650,9 +651,10 @@ export default {
     // Getting the current login user
     const user = firebase.auth().currentUser;
     this.photoUrl = user.photoURL;
+    this.currentUserId = user.uid
 
-    const url = `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/recruiter/4s518`;
-
+    const url = `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/recruiter/${this.currentUserId}`;
+    console.log("Your uid => "+this.currentUserId)
     this.axios
       .get(url, {
         headers: {
@@ -695,7 +697,7 @@ export default {
       // Data to be sent to the endpoint
       const offerDataObject = {
         id: this.generateUniqueId(),
-        recruiter: {"id": "4s518"},
+        recruiter: {"id": this.currentUserId},
         offerName: this.offer.offerName,
         startDate: this.offer.startDate,
         endDate: this.offer.endDate,
@@ -711,7 +713,16 @@ export default {
         country: this.offer.country,
         town: this.offer.town,
         street: this.offer.street,
-        categories: [],
+        categories: [
+          {
+                "id": 1,
+                "name": "Development"
+            },
+            {
+                "id": 3,
+                "name": "Communication"
+            }
+        ],
         offerseekers: []
         
       };
