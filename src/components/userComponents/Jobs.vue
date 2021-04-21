@@ -434,7 +434,7 @@ export default {
         "base64"
       );
 
-      const url = `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/offerseeker/`;
+      const url = `https://jobberserver.herokuapp.com/offerseeker/`;
 
       // Posting the data to backend
       this.axios
@@ -480,7 +480,7 @@ export default {
       "base64"
     );
 
-    const url = `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/joboffer/`;
+    const url = `https://jobberserver.herokuapp.com/joboffer/`;
 
     this.axios
       .get(url, {

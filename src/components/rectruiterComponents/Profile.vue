@@ -653,7 +653,7 @@ export default {
     this.photoUrl = user.photoURL;
     this.currentUserId = user.uid
 
-    const url = `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/recruiter/${this.currentUserId}`;
+    const url = `https://jobberserver.herokuapp.com/recruiter/${this.currentUserId}`;
     console.log("Your uid => "+this.currentUserId)
     this.axios
       .get(url, {
@@ -731,7 +731,7 @@ export default {
         "base64"
       );
 
-      const url = `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/joboffer/`;
+      const url = `https://jobberserver.herokuapp.com/joboffer/`;
       console.log(url);
       axios
         .post(url, offerDataObject, {

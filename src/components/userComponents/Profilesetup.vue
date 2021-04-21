@@ -362,7 +362,7 @@ export default {
         "base64"
       );
 
-      const url = `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/jobseeker/`;
+      const url = `https://jobberserver.herokuapp.com/jobseeker/`;
       console.log(url);
       axios
         .post(url, newUserDataObject, {

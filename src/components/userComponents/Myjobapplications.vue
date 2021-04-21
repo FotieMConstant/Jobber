@@ -234,7 +234,7 @@ export default {
     const sendGetRequest = async () => {
       try {
         let resp = await this.axios.get(
-          `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/offerseeker/jobseeker/${jobSeekerId}`,
+          `https://jobberserver.herokuapp.com/offerseeker/jobseeker/${jobSeekerId}`,
           {
             headers: {
               Authorization: `Basic ${token}`,
@@ -251,7 +251,7 @@ export default {
         ids.forEach(async (id) => {
           // Second axios call to fetch job offer
           let response = await this.axios.get(
-            `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/joboffer/${id}`,
+            `https://jobberserver.herokuapp.com/joboffer/${id}`,
             {
               headers: {
                 Authorization: `Basic ${token}`,

@@ -1172,7 +1172,7 @@ export default {
     const user = firebase.auth().currentUser;
     this.photoUrl = user.photoURL;
 
-    const url = `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/jobseeker/${user.uid}`;
+    const url = `https://jobberserver.herokuapp.com/jobseeker/${user.uid}`;
 
     this.axios
       .get(url, {
@@ -1233,7 +1233,7 @@ export default {
         "base64"
       );
 
-      const url = `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/certification/`;
+      const url = `https://jobberserver.herokuapp.com/certification/`;
       console.log(url);
       axios
         .post(url, certificationDataObject, {
@@ -1287,7 +1287,7 @@ export default {
         "base64"
       );
 
-      const url = `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/experience/`;
+      const url = `https://jobberserver.herokuapp.com/experience/`;
       console.log(url);
       axios
         .post(url, experienceDataObject, {
@@ -1339,7 +1339,7 @@ export default {
         "base64"
       );
 
-      const url = `https://cors-anywhere.herokuapp.com/https://jobberserver.herokuapp.com/education/`;
+      const url = `https://jobberserver.herokuapp.com/education/`;
       console.log(url);
       axios
         .post(url, educationDataObject, {
